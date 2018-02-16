@@ -2,7 +2,7 @@
 Logo Programming in Chrome Extension.
 
 # License
-[MIT](https://github.com/DoctorLai/CoinTools/blob/master/LICENSE)
+[MIT](https://github.com/DoctorLai/LogoTurtle/blob/master/LICENSE)
 
 # Contribution Welcome
 Github: https://github.com/DoctorLai/LogoTurtle/
