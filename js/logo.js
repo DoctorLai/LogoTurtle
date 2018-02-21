@@ -26,6 +26,17 @@ document.addEventListener('DOMContentLoaded', function() {
     $(function() {
         $( "#tabs" ).tabs();
     });
+    let logo = new LogoCanvas(document.getElementById('logo'));
+    let logoparser = new LogoParser(logo);
+    $('button#run').click(function() {
+        logoparser.run($('textarea#console').val());
+    });
+    $('textarea#console').keydown(function (e) {
+        if (e.ctrlKey && e.keyCode == 13) {
+            // Ctrl-Enter pressed
+            $('button#run').click();
+        }
+    });    
     // load settings
     chrome.storage.sync.get('logosettings', function(data) {
         if (data && data.logosettings) {

@@ -7,6 +7,8 @@
     <script src="lang/en-us.js"></script>     
     <script src="lang/zh-cn.js"></script>         
     <script src="js/constants.js"></script>     
+    <script src="js/logocanvas.js"></script>     
+    <script src="js/logoparser.js"></script>     
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/Chart.min.js"></script>
     <script src="js/chartjs-plugin-streaming.js"></script>
@@ -23,6 +25,7 @@
     <script src="js/translate.js"></script>    
     <style>
     .ext-window {width: 800px;}
+    .canvas {width: 100%; height: 380px;}
     .black {background: black; color: white;}
     .yellow {color: yellow;}
     .chart {width: 700px; height: 550px;}
@@ -36,6 +39,11 @@
         <li><a id="text_log" href="#tabs-log">Log</a></li>        
       </ul>
       <div id="tabs-canvas">
+        <canvas id="logo" class='canvas' style='border: 1px dotted'></canvas>
+        <form class='form-inline'>
+          <textarea class='form-control' id='console' style='width:84%; height: 110px' rows=6></textarea>
+          <button type='button' class='form-control' id='run' style='width:15%; height: 110px'>Ctrl + Enter</button>
+        </form>
       </div>   
       <div id="tabs-setting">
         <h4 id="text_ui_language">UI Language</h4>
