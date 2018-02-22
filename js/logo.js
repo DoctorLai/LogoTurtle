@@ -10,13 +10,16 @@ const logit = (msg) => {
 }
 
 // save settings
-const saveSettings = () => {
+const saveSettings = (showMsg = true) => {
     let settings = {};
     settings['lang'] = $('select#lang').val();
+    settings['console'] = $('textarea#console').val().trim();
     chrome.storage.sync.set({ 
         logosettings: settings
     }, function() {
-        alert(get_text('alert_save'));
+        if (showMsg) {
+            alert(get_text('alert_save'));
+        }
     });
 }
 
@@ -29,7 +32,19 @@ document.addEventListener('DOMContentLoaded', function() {
     let logo = new LogoCanvas(document.getElementById('logo'));
     let logoparser = new LogoParser(logo);
     $('button#run').click(function() {
-        logoparser.run($('textarea#console').val());
+        let s = $('textarea#console').val().trim();
+        logoparser.clearErr();
+        logoparser.clearWarning();
+        logoparser.run(s, 0, s.length);
+        let err = logoparser.getErr();
+        let warning = logoparser.getWarning();
+        if (err != '') {
+            logit(err.trim());
+        }
+        if (warning != '') {
+            logit(warning.trim());
+        }
+        saveSettings(false);
     });
     $('textarea#console').keydown(function (e) {
         if (e.ctrlKey && e.keyCode == 13) {
@@ -42,7 +57,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data && data.logosettings) {
             let settings = data.logosettings;
             let lang = settings['lang'];
+            let console = settings['console'];
             $("select#lang").val(lang);
+            $("textarea#console").val(console);
         } else {
             // first time set default parameters
         }

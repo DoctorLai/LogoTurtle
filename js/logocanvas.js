@@ -5,7 +5,7 @@ class LogoCanvas {
 	constructor(canvas) {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext("2d");
-		this.ctx.lineWidth = 1;
+		this.ctx.lineWidth = 0.1;
 		// turtle (0, 0)
 		this.x = 0;
 		this.y = 0;
@@ -41,14 +41,15 @@ class LogoCanvas {
 	}
 
 	// go home
-	ht() {
+	home() {
 		this.moveTo(0, 0);
 	}
 
 	// go home and reset
 	cs() {
-		this.ht();
+		this.home();
 		this.angle = 0;
+		this.ctx.clearRect(0, 0, this.width, this.height);
 	}
 
 	// pen up
