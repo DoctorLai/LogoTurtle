@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // init tabs
     $(function() {
         $( "#tabs" ).tabs();
-    });
-    let logo = new LogoCanvas(document.getElementById('logo'));
+    });    
+    let logo = new LogoCanvas(document.getElementById('logo'), $('#turtle'));
     let logoparser = new LogoParser(logo);
     $('button#run').click(function() {
         let s = $('textarea#console').val().trim();
@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (warning != '') {
             logit(warning.trim());
         }
+        // save the source code
         saveSettings(false);
     });
     $('textarea#console').keydown(function (e) {

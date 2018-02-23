@@ -1,6 +1,8 @@
 'use strict';
 
 let translation_english = {
+	'supported_commands': 'Supported Commands',
+	'help': 'Help',
 	'canvas': 'Canvas',
 	'save': 'Save',
 	'alert_save': 'Settings Saved (Required: Reload Extension)',	

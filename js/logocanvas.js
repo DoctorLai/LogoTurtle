@@ -2,10 +2,17 @@
 
 class LogoCanvas {
 	// canvas = HTML5 canvas
-	constructor(canvas) {
+	constructor(canvas, turtle) {
+		this.turtle = turtle;
 		this.canvas = canvas;
+		let pos = cumulativeOffset(this.canvas);
+		this.canvas_left = pos.left + $(turtle).width() / 2;
+		this.canvas_top = pos.top - $(turtle).height();		
 		this.ctx = canvas.getContext("2d");
-		this.ctx.lineWidth = 0.1;
+		this.lineWidth = 1;
+		this.lineColor = "black";
+		this.ctx.lineWidth = this.lineWidth;
+		this.ctx.strokeStyle = this.lineColor;
 		// turtle (0, 0)
 		this.x = 0;
 		this.y = 0;
@@ -18,6 +25,8 @@ class LogoCanvas {
 		// facing north, clock-wise
 		this.angle = 0;
 		this.error = '';
+		this.setTurtle(0, 0);
+		this.setTurtleAngle(this.angle);
 	}
 
 	// error messages;
@@ -28,11 +37,33 @@ class LogoCanvas {
 	// turn right
 	rt(ang) {
 		this.angle += ang;
+		this.setTurtleAngle(this.angle);
 	}
 
 	// turn left
 	lt(ang) {
 		this.rt(-ang);
+		this.setTurtleAngle(this.angle);
+	}
+
+	// set line color
+	setLineColor(c) {
+		this.lineColor = c;
+	}
+
+	// set line width
+	setLineWidth(c) {
+		this.lineWidth = c;
+	}
+
+	// get line color
+	getLineColor() {
+		return this.lineColor;
+	}
+
+	// get line width
+	getLineWidth() {
+		return this.lineWidth;
 	}
 
 	// clear error
@@ -50,6 +81,33 @@ class LogoCanvas {
 		this.home();
 		this.angle = 0;
 		this.ctx.clearRect(0, 0, this.width, this.height);
+		this.setTurtleAngle(this.angle);
+	}
+
+	// set turtle
+	setTurtle(x, y) {
+		this.turtle.css("left", this.canvas_left + x + this.cx);
+		this.turtle.css("top", this.canvas_top + y + this.cy);
+		this.setTurtleAngle(this.angle);
+	}
+
+	// set turtle angle
+	setTurtleAngle(ang) {
+	    this.turtle.css({
+	        "-webkit-transform": "rotate(" + ang + "deg)",
+	        "-moz-transform": "rotate(" + ang + "deg)",
+	        "transform": "rotate(" + ang + "deg)" /* For modern browsers(CSS3)  */
+	    });				
+	}
+
+	// show turtle
+	st() {
+		this.turtle.show();
+	}
+
+	// hide turtle
+	ht() {
+		this.turtle.hide();	
 	}
 
 	// pen up
@@ -74,6 +132,9 @@ class LogoCanvas {
 
 	// draw a line
 	draw(x1, y1, x2, y2) {
+		this.ctx.beginPath();
+		this.ctx.strokeStyle = this.lineColor;
+		this.ctx.lineWidth = this.lineWidth;
 		this.ctx.moveTo(x1 + this.cx, this.cy + y1);
 		this.ctx.lineTo(x2 + this.cx, this.cy + y2);
 		this.ctx.stroke();
@@ -102,6 +163,7 @@ class LogoCanvas {
 		}
 		this.x = nx;
 		this.y = ny;
+		this.setTurtle(this.x, this.y);
 	}
 
 	// get x

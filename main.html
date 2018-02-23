@@ -24,6 +24,8 @@
     .black {background: black; color: white;}
     .yellow {color: yellow;}
     .chart {width: 700px; height: 550px;}
+    #turtle {position: absolute; top; 0; left: 0; width: 20px; height: 20px;}
+    .canvas {position: relative; top; 0; left: 0;}
     </style>
   </head>
   <body>
@@ -31,10 +33,13 @@
       <ul>
         <li><a id="text_canvas" href="#tabs-canvas">Canvas</a></li>
         <li><a id="text_setting" href="#tabs-setting">Setting</a></li>
+        <li><a id="text_help" href="#tabs-help">Help</a></li>
         <li><a id="text_log" href="#tabs-log">Log</a></li>        
       </ul>
       <div id="tabs-canvas">
-        <canvas id="logo" class='canvas' width=750 height=380 style='border: 1px dashed'></canvas>
+        <img id=turtle src="images/turtle.png" />
+        <canvas id="logo" class='canvas' width=750 height=380 style='border: 1px dashed'>          
+        </canvas>
         <form class='form-inline'>
           <textarea class='form-control' id='console' style='width:84%; height: 110px' rows=6></textarea>
           <button type='button' class='form-control' id='run' style='width:15%; height: 110px'>Ctrl + Enter</button>
@@ -48,6 +53,24 @@
         </select>
         <button class="form-control" style='width: 70px' id="setting_save_btn">Save</button>
       </div>   
+      <div id="tabs-help">
+        <h4 id='supported_commands'>Support Commands</h4>
+        <ul>
+          <li>FD, FORWARD</li>
+          <li>BK, BACKWARD</li>
+          <li>RT, RIGHT</li>
+          <li>LT, LEFT</li>
+          <li>ST, SHOWTURTLE</li>
+          <li>HT, HIDETURTLE</li>
+          <li>COLOR</li>
+          <li>WIDTH</li>
+          <li>PU, PENUP</li>
+          <li>PD, PENDOWN</li>
+          <li>HOME</li>
+          <li>CS, CLEARSCREEN</li>
+          <li>REPEAT</li>          
+        </ul>
+      </div>        
       <div id="tabs-log">
         <h4><span id='proudly_brought_to_you_by'>Proudly brought to you by</span> <a target=_blank href="https://steemit.com/@justyy">@justyy</a></h4>
         <textarea readonly class='form-control' rows=15 id='about'>           

@@ -60,6 +60,14 @@ class LogoParser {
 			let y = getNextWord(s, i, U);
 			let word_next = y.word;			
 			switch (word) {
+				case "st":
+				case "showturtle":
+					this.logo.st();
+					break;
+				case "ht":
+				case "hideturtle":
+					this.logo.ht();
+					break;
 				case "cs":
 				case "clearscreen":
 					this.logo.cs();
@@ -110,7 +118,23 @@ class LogoParser {
 					}
 					this.logo.lt(parseFloat(word_next));
 					i = y.next;
-					break;		
+					break;
+				case "width":
+					if ((word_next == '') || (!isNumeric(word_next))) {
+						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);
+						return;
+					}
+					this.logo.setLineWidth(parseFloat(word_next));
+					i = y.next;
+					break;								
+				case "color":
+					if ((word_next == '')) {
+						this.pushErr(LOGO_ERR_MISSING_PARAM, word_next);
+						return;
+					}
+					this.logo.setLineColor(word_next);
+					i = y.next;
+					break;						
 				case "repeat":
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);

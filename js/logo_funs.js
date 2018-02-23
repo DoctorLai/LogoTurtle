@@ -47,3 +47,42 @@ for (let i = 0; i < U;)  {
 	}
 	return {word: s.substring(_k, i).trim(), next: i};	  
 }
+
+// get absolute position
+const cumulativeOffset = (element) => {
+    let top = 0, left = 0;
+    do {
+		top += element.offsetTop || 0;
+        left += element.offsetLeft || 0;
+        element = element.offsetParent;
+    } while(element);
+
+    return {
+        top: top,
+        left: left
+    };
+}
+
+// get next [] body
+const getNextBody = (s, i, U) => {
+	let nested = 0;
+	// need to match [ and ]
+	let start = i;
+	while (i < U) {
+		if (s[i] == '[') {
+			nested ++;
+			if (nested == 1) {
+				start = i;
+			}
+		}												
+		if (s[i] == ']') {
+			nested --;
+			if (nested == 0) {
+				break;
+			}
+		}
+		i ++;
+	}
+	return {left: start, right: i};
+}
+

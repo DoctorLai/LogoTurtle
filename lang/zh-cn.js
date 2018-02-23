@@ -1,6 +1,8 @@
 'use strict';
 
 let translation_simplified_chinese = {
+	'supported_commands': '已支持的命令',
+	'help': '帮助',
 	'canvas': '画布',
 	'save': '保存',
 	'alert_save': '已经保存好，可能需要重新启动程序。',	
