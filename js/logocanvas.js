@@ -6,8 +6,8 @@ class LogoCanvas {
 		this.turtle = turtle;
 		this.canvas = canvas;
 		let pos = cumulativeOffset(this.canvas);
-		this.canvas_left = pos.left + $(turtle).width() / 2;
-		this.canvas_top = pos.top - $(turtle).height();		
+		this.canvas_left = pos.left + $(turtle).width() / 1.5;
+		this.canvas_top = pos.top - $(turtle).height() * 2 - 3;
 		this.ctx = canvas.getContext("2d");
 		this.lineWidth = 1;
 		this.lineColor = "black";
@@ -16,6 +16,8 @@ class LogoCanvas {
 		// turtle (0, 0)
 		this.x = 0;
 		this.y = 0;
+		this.fontsize = 20;
+		this.ctx.font = "20px Arial";
 		this.pendown = true;
 		this.width = canvas.width;
 		this.height = canvas.height;
@@ -91,6 +93,20 @@ class LogoCanvas {
 		this.setTurtleAngle(this.angle);
 	}
 
+	// drawText
+	drawText(text) {
+		if (this.pendown) {
+			this.ctx.save();
+			this.ctx.translate(this.x + this.cx, this.y + this.cy);
+			this.ctx.rotate(this.angle * Math.PI / 180);
+			this.ctx.textAlign = 'left';
+			this.ctx.font = this.fontsize + "px Arial";		
+			this.ctx.fillStyle = this.getLineColor();
+			this.ctx.fillText(text, 0, 10);
+			this.ctx.restore();
+		}
+	}
+
 	// set turtle angle
 	setTurtleAngle(ang) {
 	    this.turtle.css({
@@ -98,6 +114,17 @@ class LogoCanvas {
 	        "-moz-transform": "rotate(" + ang + "deg)",
 	        "transform": "rotate(" + ang + "deg)" /* For modern browsers(CSS3)  */
 	    });				
+	}
+
+	// set font size
+	setFontSize(x) {
+		this.fontsize = x;
+		this.ctx.font = x + "px Arial";
+	}
+
+	// get font size
+	getFontSize() {
+		return this.fontsize;
 	}
 
 	// show turtle
@@ -108,6 +135,11 @@ class LogoCanvas {
 	// hide turtle
 	ht() {
 		this.turtle.hide();	
+	}
+
+	// draw a dot
+	dot() {
+		this.ctx.fillRect(this.x + this.cx, this.y + this.cy, this.lineWidth, this.lineWidth);
 	}
 
 	// pen up

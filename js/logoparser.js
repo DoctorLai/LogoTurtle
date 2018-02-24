@@ -50,7 +50,7 @@ class LogoParser {
 	// source - s
 	// left index - i
 	// right index (not contain) - U
-	run(s, i, U) {
+	run(s, i, U, depth = 0) {
 		while (i < U) {
 			// get next word and next index
 			let x = getNextWord(s, i, U);
@@ -79,6 +79,9 @@ class LogoParser {
 				case "penup":
 					this.logo.pu();
 					break;
+				case "dot":
+					this.logo.dot();
+					break;					
 				case "pd":
 				case "pendown":
 					this.logo.pd();
@@ -92,6 +95,20 @@ class LogoParser {
 					this.logo.fd(parseFloat(word_next));
 					i = y.next;
 					break;
+				case "jump":
+				case "jmp":
+					if ((word_next == '') || (!isNumeric(word_next))) {
+						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);
+						return;
+					}
+					let pd = this.logo.isPendown();
+					this.logo.pu();
+					this.logo.fd(parseFloat(word_next));
+					if (pd) {
+						this.logo.pd();
+					}
+					i = y.next;
+					break;					
 				case "bk":
 				case "backward":
 					if ((word_next == '') || (!isNumeric(word_next))) {
@@ -101,6 +118,14 @@ class LogoParser {
 					this.logo.bk(parseFloat(word_next));
 					i = y.next;
 					break;	
+				case "fontsize":
+					if ((word_next == '') || (!isNumeric(word_next))) {
+						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);
+						return;
+					}
+					this.logo.setFontSize(parseFloat(word_next));
+					i = y.next;
+					break;						
 				case "rt":
 				case "right":
 					if ((word_next == '') || (!isNumeric(word_next))) {
@@ -126,7 +151,7 @@ class LogoParser {
 					}
 					this.logo.setLineWidth(parseFloat(word_next));
 					i = y.next;
-					break;								
+					break;												
 				case "color":
 					if ((word_next == '')) {
 						this.pushErr(LOGO_ERR_MISSING_PARAM, word_next);
@@ -134,7 +159,20 @@ class LogoParser {
 					}
 					this.logo.setLineColor(word_next);
 					i = y.next;
-					break;						
+					break;		
+				case "text":
+					if (word_next != '[') {
+						this.pushErro(LOGO_ERR_MISSING_LEFT);
+					}
+					let find_next_body = getNextBody(s, i, U);
+					if (find_next_body.right >= U) {
+						this.pushErr(LOGO_ERR_MISSING_RIGHT);
+						return;
+					}
+					let text_to_print = s.substring(find_next_body.left + 1, find_next_body.right);
+					this.logo.drawText(text_to_print);
+					i = find_next_body.right + 1;
+					break;
 				case "repeat":
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);
@@ -166,7 +204,7 @@ class LogoParser {
 					}
 					for (let i = 0; i < word_next; ++ i) {
 						// recursive call repeat body
-						this.run(s, repeat_left, find_right);
+						this.run(s, repeat_left, find_right, depth + 1);
 					}
 					i = find_right + 1;
 					break;						

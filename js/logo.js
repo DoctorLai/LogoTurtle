@@ -28,8 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // init tabs
     $(function() {
         $( "#tabs" ).tabs();
-    });    
-    let logo = new LogoCanvas(document.getElementById('logo'), $('#turtle'));
+    });      
+    let canvas = document.getElementById('logo');
+    let logo = new LogoCanvas(canvas, $('#turtle'));
     let logoparser = new LogoParser(logo);
     $('button#run').click(function() {
         let s = $('textarea#console').val().trim();
@@ -53,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
             $('button#run').click();
         }
     });    
+    // open canvas as png in new tab
+    document.getElementById('download').addEventListener('click', () => {
+        chrome.tabs.create({ url: canvas.toDataURL() });
+    }, false);
     // load settings
     chrome.storage.sync.get('logosettings', function(data) {
         if (data && data.logosettings) {
