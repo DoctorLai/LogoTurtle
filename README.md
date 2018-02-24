@@ -18,4 +18,5 @@ Github: https://github.com/DoctorLai/LogoTurtle/
 5. Submit a pull request.
 
 # Blog Posts
+- v0.0.2: [ShowTurtle, HideTurtle, Color, Width and Help.](https://helloacm.com/logoturtle-v0-0-2-showturtle-hideturtle-color-width-and-help/)
 - v0.0.1: [Teach Your Kids Programming – The First Logo Interpreter (Turtle Graphics) in Chrome Extension!](https://helloacm.com/teach-your-kids-programming-the-first-logo-interpreter-turtle-graphics-in-chrome-extension/)
