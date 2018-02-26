@@ -81,8 +81,37 @@ const getNextBody = (s, i, U) => {
 				break;
 			}
 		}
+		if (!isSpace(s[i]) && (nested == 0)) {
+			start = i;
+			while ((i < U) && (!isSpace(s[i]))) {
+				i ++;
+			}
+			break;		
+		}
 		i ++;
 	}
-	return {left: start, right: i};
+	return {left: start, right: i, ch: s[start]};
 }
 
+// check if valid var_name
+const isValidVarName = (x) => {
+	let pat = /^[a-zA-Z]+[a-zA-Z0-9]*$/g;
+	return pat.test(x);
+}
+
+// parse var name
+const parseVarName = (s) => {
+	let pat = /(:[a-zA-Z]+[a-zA-Z0-9]*)/g;
+	let arr = [];
+	let matches;
+	while (matches = pat.exec(s)) {
+		arr.push(matches[1]);		
+	}
+	return arr;
+}
+
+// string replace all
+String.prototype.replaceAll = function(search, replacement) {
+    let target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
