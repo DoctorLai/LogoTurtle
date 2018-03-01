@@ -1,7 +1,7 @@
 # LogoTurtle
 I believe this is the First Open Source Logo Programming in Chrome Extension.
 
-![](https://github.com/DoctorLai/LogoTurtle/blob/master/images/screenshot.jpg?raw=true)
+![](https://github.com/DoctorLai/LogoTurtle/blob/master/images/if-else.jpg?raw=true)
 
 # Install
 Just install via [Chrome Webstore](https://chrome.google.com/webstore/detail/logo-turtle/dcoeaobaokbccdcnadncifmconllpihp).
