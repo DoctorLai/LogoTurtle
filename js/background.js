@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    switch(message.type) {
+    switch (message.type) {
         case "console.log":
             console.log(message.obj);
         break;
@@ -8,10 +8,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 });
 
 chrome.runtime.onInstalled.addListener(function(details){
-    if(details.reason == "install"){
+    if (details.reason == "install"){
         //call a function to handle a first install
         console.log("onInstalled: Thank you!");
-    }else if(details.reason == "update"){
+    }else if (details.reason == "update"){
         //call a function to handle an update
         console.log("new version available.");
     }

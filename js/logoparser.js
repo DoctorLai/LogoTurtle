@@ -72,7 +72,11 @@ class LogoParser {
 				break;
 			}
 		}
-		return s;
+		try {
+			return eval(s);
+		} catch (e) {
+			return s;
+		}
 	}
 
 	// parse a LOGO program source code
@@ -80,12 +84,14 @@ class LogoParser {
 	// left index - i
 	// right index (not contain) - U
 	run(s, i, U, depth = 0) {
+		let find_left, find_right, repeat_left, repeat_right, find_else;
+		let nested, expr;
 		while (i < U) {
 			// skip for white spaces and newlines
 			while ((i < U) && (isSpace(s[i]) || s[i] == '\n')) {
 				i ++;				
 			}
-			if (i >= U) {
+			if (i >= U) { // reach block end
 				break;
 			}
 			// skip comments till the end
@@ -104,6 +110,7 @@ class LogoParser {
 			let y = getNextWord(s, i, U);
 			let word_next = y.word;			
 			switch (word) {
+				case '[': // ignore additional []
 				case ']':
 					break;
 				case "st":
@@ -131,58 +138,63 @@ class LogoParser {
 				case "make": // e.g. make "abc 123
 					if (!word_next.startsWith("\"")) {
 						this.pushErr(LOGO_ERR_MISSING_QUOTE);
-						return;
+						return false;
 					}
 					let var_name = word_next.substring(1);
 					if (!isValidVarName(var_name)) {
-						this.pushError(LOGO_ERR_INVALID_VAR_NAME);
-						return;
+						this.pushErr(LOGO_ERR_INVALID_VAR_NAME);
+						return false;
 					}
 					let word_next2 = getNextWord(s, y.next, U);
 					if (word_next2.word == '[') {
 						let find_next_body2 = getNextBody(s, i, U);
 						if (find_next_body2.right >= U) {
 							this.pushErr(LOGO_ERR_MISSING_RIGHT);
-							return;
+							return false;
 						}
 						let body = s.substring(find_next_body2.left + 1, find_next_body2.right);
 						this.addVar(var_name, body);
 						i = find_next_body2.right + 1;
 					} else {
-						this.addVar(var_name, word_next2.word);
+						this.addVar(var_name, this.evalVars(word_next2.word));
 						i = word_next2.next + 1;
 					}
 					break;
+				case "stop":
+					return false;
 				case "pd":
 				case "pendown":
 					this.logo.pd();
 					break;
 				case "fd":
+				case "walk":
 				case "forward":
+					expr = this.evalVars(word_next);
 					try {
-						word_next = eval(this.evalVars(word_next));
+						word_next = eval(expr);
 					} catch (e) {
-						this.pushErr(LOGO_ERR_EVAL, word_next);
-						return;
+						this.pushErr(LOGO_ERR_EVAL, expr);
+						return false;
 					}
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);
-						return;
+						return false;
 					}
 					this.logo.fd(parseFloat(word_next));
 					i = y.next;
 					break;
 				case "jump":
 				case "jmp":
+					expr = this.evalVars(word_next);
 					try {
-						word_next = eval(this.evalVars(word_next));
+						word_next = eval(expr);
 					} catch (e) {
-						this.pushErr(LOGO_ERR_EVAL, word_next);
-						return;
+						this.pushErr(LOGO_ERR_EVAL, expr);
+						return false;
 					}				
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);
-						return;
+						return false;
 					}
 					let pd = this.logo.isPendown();
 					this.logo.pu();
@@ -194,73 +206,78 @@ class LogoParser {
 					break;					
 				case "bk":
 				case "backward":
+					expr = this.evalVars(word_next);
 					try {
-						word_next = eval(this.evalVars(word_next));
+						word_next = eval(expr);
 					} catch (e) {
-						this.pushErr(LOGO_ERR_EVAL, word_next);
-						return;
+						this.pushErr(LOGO_ERR_EVAL, expr);
+						return false;
 					}				
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);
-						return;
+						return false;
 					}
 					this.logo.bk(parseFloat(word_next));
 					i = y.next;
 					break;	
 				case "fontsize":
+					expr = this.evalVars(word_next);
 					try {
-						word_next = eval(this.evalVars(word_next));
+						word_next = eval(expr);
 					} catch (e) {
-						this.pushErr(LOGO_ERR_EVAL, word_next);
-						return;
+						this.pushErr(LOGO_ERR_EVAL, expr);
+						return false;
 					}				
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);
-						return;
+						return false;
 					}
 					this.logo.setFontSize(parseFloat(word_next));
 					i = y.next;
 					break;						
 				case "rt":
 				case "right":
+					expr = this.evalVars(word_next);
 					try {
-						word_next = eval(this.evalVars(word_next));
+						word_next = eval(expr);
 					} catch (e) {
-						this.pushErr(LOGO_ERR_EVAL, word_next);
-						return;
+						this.pushErr(LOGO_ERR_EVAL, expr);
+						return false;
 					}				
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);
-						return;
+						return false;
 					}
 					this.logo.rt(parseFloat(word_next));
 					i = y.next;
 					break;		
 				case "lt":
 				case "left":
+					expr = this.evalVars(word_next);
 					try {
-						word_next = eval(this.evalVars(word_next));
+						word_next = eval(expr);
 					} catch (e) {
-						this.pushErr(LOGO_ERR_EVAL, word_next);
-						return;
+						this.pushErr(LOGO_ERR_EVAL, expr);
+						return false;
 					}				
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);
-						return;
+						return false;
 					}
 					this.logo.lt(parseFloat(word_next));
 					i = y.next;
 					break;
 				case "width":
+					expr = this.evalVars(word_next);
 					try {
-						word_next = eval(this.evalVars(word_next));
+						word_next = eval(expr);
 					} catch (e) {
-						this.pushErr(LOGO_ERR_EVAL, word_next);
-						return;
+						this.pushErr(LOGO_ERR_EVAL, expr);
+						return false;
 					}				
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);
-						return;
+						return false;
 					}
 					this.logo.setLineWidth(parseFloat(word_next));
 					i = y.next;
@@ -268,43 +285,106 @@ class LogoParser {
 				case "color":				
 					if ((word_next == '')) {
 						this.pushErr(LOGO_ERR_MISSING_PARAM, word_next);
-						return;
+						return false;
 					}
 					this.logo.setLineColor(word_next);
 					i = y.next;
 					break;		
 				case "text":
 					if (word_next != '[') {
-						this.pushErro(LOGO_ERR_MISSING_LEFT);
+						this.pushErr(LOGO_ERR_MISSING_LEFT);
 					}
 					let find_next_body = getNextBody(s, i, U);
 					if (find_next_body.right >= U) {
 						this.pushErr(LOGO_ERR_MISSING_RIGHT);
-						return;
+						return false;
 					}
 					let text_to_print = s.substring(find_next_body.left + 1, find_next_body.right);
 					this.logo.drawText(text_to_print);
 					i = find_next_body.right + 1;
 					break;
-				case "repeat":
+				case "if":
+					expr = this.evalVars(word_next, true);
 					try {
-						word_next = eval(this.evalVars(word_next));
+						word_next = eval(expr);
+					} catch (e) {
+						this.pushErr(LOGO_ERR_EVAL, expr);
+						return false;
+					}				
+					if ((word_next === '')) {						
+						this.pushErr(LOGO_ERR_MISSING_EXP, word_next);
+						return false;
+					}
+					find_left = getNextWord(s, y.next, U);
+					if (find_left.word != '[') {
+						this.pushErr(LOGO_ERR_MISSING_LEFT, find_left.word);
+						return false;
+					}
+					repeat_left = find_left.next;
+					find_right = repeat_left + 1;
+					nested = 1;
+					// need to match [ and ]
+					while (find_right < U) {
+						if (s[find_right] == '[') {
+							nested ++;
+						}												
+ 						if (s[find_right] == ']') {
+ 							nested --;
+ 							if (nested == 0) {
+ 								break;
+ 							}
+ 						}
+ 						find_right ++;
+					}
+					if (find_right >= U) {
+						this.pushWarning(LOGO_ERR_MISSING_RIGHT);						
+					}
+					let ifelse = word_next;					
+					if (ifelse) {
+						// if body
+						if (!this.run(s, repeat_left, find_right, depth + 1)) {
+							return false;
+						}
+					} 	
+					find_else = getNextWord(s, find_right + 1, U);
+					if (find_else.word.toLowerCase() == 'else') {
+						let else_block = getNextBody(s, find_else.next, U);
+						if (else_block.ch != '[') {
+							this.pushErr(LOGO_ERR_MISSING_LEFT, else_block.ch);
+							return false;
+						}
+						if (!ifelse) {
+							// else body
+							if (!this.run(s, else_block.left, else_block.right, depth + 1)) {
+								return false;
+							}
+						}
+						i = else_block.right + 1;
+					} else {
+						// no else block
+						i = find_right + 1; 
+					}
+					break;						
+				case "repeat":
+					expr = this.evalVars(word_next);
+					try {
+						word_next = eval(expr);
 					} catch (e) {
 						this.pushErr(LOGO_ERR_EVAL, word_next);
-						return;
+						return false;
 					}				
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(LOGO_ERR_MISSING_NUMBERS, word_next);
-						return;
+						return false;
 					}
-					let find_left = getNextWord(s, y.next, U);
+					find_left = getNextWord(s, y.next, U);
 					if (find_left.word != '[') {
 						this.pushErr(LOGO_ERR_MISSING_LEFT, find_left.word);
-						return;
+						return false;
 					}
-					let repeat_left = find_left.next;
-					let find_right = repeat_left + 1;
-					let nested = 1;
+					repeat_left = find_left.next;
+					find_right = repeat_left + 1;
+					nested = 1;
 					// need to match [ and ]
 					while (find_right < U) {
 						if (s[find_right] == '[') {
@@ -323,13 +403,17 @@ class LogoParser {
 					}
 					for (let i = 0; i < word_next; ++ i) {
 						// recursive call repeat body
-						this.run(s, repeat_left, find_right, depth + 1);
+						if (!this.run(s, repeat_left, find_right, depth + 1)) {
+							return false;
+						}
 					}
 					i = find_right + 1;
 					break;						
 				default:
-					this.pushErr(LOGO_ERR_UNKNOWN_COMMAND, word);												
-			}
-		}		
+					this.pushErr(LOGO_ERR_UNKNOWN_COMMAND, word);
+					return false;											
+			}		
+		}	
+		return true; // SUCCESS	
 	}
 }
