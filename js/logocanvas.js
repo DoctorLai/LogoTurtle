@@ -36,6 +36,12 @@ class LogoCanvas {
 		return this.error;
 	}
 
+	// absolute angle
+	setAngle(ang) {
+		this.angle = ang;
+		this.setTurtleAngle(this.angle);
+	}
+
 	// turn right
 	rt(ang) {
 		this.angle += ang;
@@ -46,6 +52,12 @@ class LogoCanvas {
 	lt(ang) {
 		this.rt(-ang);
 		this.setTurtleAngle(this.angle);
+	}
+
+	// set screen color
+	setScreenColor(c) {
+		this.ctx.fillStyle = c;
+		this.ctx.fillRect(0, 0, this.width, this.height);
 	}
 
 	// set line color
@@ -161,6 +173,15 @@ class LogoCanvas {
 		let sy = len * Math.cos(a);
 		this.moveTo(x + sx, y - sy);
 	}
+
+	// circle
+	circle(r) {		
+		let x = this.x + this.cx;
+		let y = this.y + this.cy;
+		this.ctx.beginPath();
+		this.ctx.arc(x, y, r, 0, Math.PI * 2, true);
+		this.ctx.stroke();
+	}	
 
 	// draw a line
 	draw(x1, y1, x2, y2) {
