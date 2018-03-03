@@ -1,6 +1,7 @@
 'use strict';
 
 let translation_simplified_chinese = {
+	'text_logs': '版本记录',
 	'supported_commands': '已支持的命令',
 	'help': '帮助',
 	'canvas': '画布',

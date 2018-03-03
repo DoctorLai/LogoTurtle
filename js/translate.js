@@ -14,6 +14,7 @@ const translation = (lang) => {
     translate_text($('a#text_setting'), lang, 'setting');
     translate_text($('a#text_log'), lang, 'log');
     translate_text($('h4#text_ui_language'), lang, 'ui_language');
+    translate_text($('h4#text_logs'), lang, 'text_logs');
     translate_text($('a#text_help'), lang, 'help');
     translate_text($('h4#supported_commands'), lang, 'supported_commands');
     translate_text($('button#setting_save_btn'), lang, 'save');

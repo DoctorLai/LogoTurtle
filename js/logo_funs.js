@@ -115,3 +115,16 @@ String.prototype.replaceAll = function(search, replacement) {
     let target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
+
+// check if true
+const iftrue = (x) => {
+	switch (typeof x) {
+		case "number":
+			return parseInt(x) != 0;
+		case "boolean":
+			return x;
+		case "string":
+			return x.toLowerCase() == 'true';
+	}
+	return false;
+}

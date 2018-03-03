@@ -7,6 +7,7 @@ class LogoParser {
 		this.clearWarning();
 		this.clearErr();
 		this.vars = {};
+		this.funs = {};
 	}
 
 	// push a varaible
@@ -86,6 +87,11 @@ class LogoParser {
 	run(s, i, U, depth = 0) {
 		let find_left, find_right, repeat_left, repeat_right, find_else;
 		let nested, expr, second_word, second_word_word;
+		if (depth > MAX_DEPTH) {
+			// Stack Overflow e.g. recursion without terminating conditions
+			this.pushErr("", LOGO_ERR_STACK_OVERFLOW, depth);
+			return false;
+		}
 		while (i < U) {
 			// skip for white spaces and newlines
 			while ((i < U) && (isSpace(s[i]) || s[i] == '\n')) {
@@ -95,12 +101,22 @@ class LogoParser {
 				break;
 			}
 			// skip comments till the end
-			if (s[i] == ';') {
+			if ((s[i] == ';') || (s[i] == '#')) {
 				while ((i < U) && (s[i] != '\n')) {
 					i ++;
 				}
 				i ++;
 				continue;
+			}
+			// skip // comments
+			if (i + 1 < U) {
+				if ((s[i] == '/') && (s[i + 1] == '/')) {
+					while ((i < U) && (s[i] != '\n')) {
+						i ++;
+					}
+					i ++;
+					continue;
+				}
 			}
 			// get next word and next index
 			let x = getNextWord(s, i, U);
@@ -109,7 +125,7 @@ class LogoParser {
 			let lword = word.toLowerCase();
 			let y = getNextWord(s, i, U);
 			let word_next = y.word;			
-			switch (word) {
+			switch (lword) {
 				case '[': // ignore additional []
 				case ']':
 					break;
@@ -169,13 +185,7 @@ class LogoParser {
 				case "fd":
 				case "walk":
 				case "forward":
-					expr = this.evalVars(word_next);
-					try {
-						word_next = eval(expr);
-					} catch (e) {
-						this.pushErr(word, LOGO_ERR_EVAL, expr);
-						return false;
-					}
+					word_next = this.evalVars(word_next);
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
 						return false;
@@ -185,13 +195,7 @@ class LogoParser {
 					break;
 				case "jump":
 				case "jmp":
-					expr = this.evalVars(word_next);
-					try {
-						word_next = eval(expr);
-					} catch (e) {
-						this.pushErr(word, LOGO_ERR_EVAL, expr);
-						return false;
-					}				
+					word_next = this.evalVars(word_next);
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
 						return false;
@@ -206,13 +210,7 @@ class LogoParser {
 					break;					
 				case "bk":
 				case "backward":
-					expr = this.evalVars(word_next);
-					try {
-						word_next = eval(expr);
-					} catch (e) {
-						this.pushErr(word, LOGO_ERR_EVAL, expr);
-						return false;
-					}				
+					word_next = this.evalVars(word_next);
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
 						return false;
@@ -221,13 +219,7 @@ class LogoParser {
 					i = y.next;
 					break;	
 				case "fontsize":
-					expr = this.evalVars(word_next);
-					try {
-						word_next = eval(expr);
-					} catch (e) {
-						this.pushErr(word, LOGO_ERR_EVAL, expr);
-						return false;
-					}				
+					word_next = this.evalVars(word_next);
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
 						return false;
@@ -237,13 +229,7 @@ class LogoParser {
 					break;						
 				case "rt":
 				case "right":
-					expr = this.evalVars(word_next);
-					try {
-						word_next = eval(expr);
-					} catch (e) {
-						this.pushErr(word, LOGO_ERR_EVAL, expr);
-						return false;
-					}				
+					word_next = this.evalVars(word_next);
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
 						return false;
@@ -252,13 +238,7 @@ class LogoParser {
 					i = y.next;
 					break;	
 				case "circle":
-					expr = this.evalVars(word_next);
-					try {
-						word_next = eval(expr);
-					} catch (e) {
-						this.pushErr(word, LOGO_ERR_EVAL, expr);
-						return false;
-					}				
+					word_next = this.evalVars(word_next);
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
 						return false;
@@ -267,13 +247,7 @@ class LogoParser {
 					i = y.next;
 					break;	
 				case "moveto":
-					expr = this.evalVars(word_next);
-					try {
-						word_next = eval(expr);
-					} catch (e) {
-						this.pushErr(word, LOGO_ERR_EVAL, expr);
-						return false;
-					}				
+					word_next = this.evalVars(word_next);
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
 						return false;
@@ -303,13 +277,7 @@ class LogoParser {
 					i = y.next;
 					break;							
 				case "turn":
-					expr = this.evalVars(word_next);
-					try {
-						word_next = eval(expr);
-					} catch (e) {
-						this.pushErr(word, LOGO_ERR_EVAL, expr);
-						return false;
-					}				
+					word_next = this.evalVars(word_next);
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
 						return false;
@@ -319,13 +287,7 @@ class LogoParser {
 					break;
 				case "lt":
 				case "left":
-					expr = this.evalVars(word_next);
-					try {
-						word_next = eval(expr);
-					} catch (e) {
-						this.pushErr(word, LOGO_ERR_EVAL, expr);
-						return false;
-					}				
+					word_next = this.evalVars(word_next);
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
 						return false;
@@ -334,13 +296,7 @@ class LogoParser {
 					i = y.next;
 					break;
 				case "width":
-					expr = this.evalVars(word_next);
-					try {
-						word_next = eval(expr);
-					} catch (e) {
-						this.pushErr(word, LOGO_ERR_EVAL, expr);
-						return false;
-					}				
+					word_next = this.evalVars(word_next);
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
 						return false;
@@ -370,14 +326,8 @@ class LogoParser {
 					i = find_next_body.right + 1;
 					break;
 				case "if":
-					expr = this.evalVars(word_next, true);
-					try {
-						word_next = eval(expr);
-					} catch (e) {
-						this.pushErr(word, LOGO_ERR_EVAL, expr);
-						return false;
-					}				
-					if ((word_next === '')) {						
+					word_next = this.evalVars(word_next);				
+					if (word_next === '') {
 						this.pushErr(word, LOGO_ERR_MISSING_EXP, word_next);
 						return false;
 					}
@@ -405,10 +355,10 @@ class LogoParser {
 					if (find_right >= U) {
 						this.pushWarning(word, LOGO_ERR_MISSING_RIGHT);						
 					}
-					let ifelse = word_next;					
+					let ifelse = iftrue(word_next);
 					if (ifelse) {
 						// if body
-						if (!this.run(s, repeat_left, find_right, depth + 1)) {
+						if (!this.run(s, repeat_left, find_right, depth + 1)) {		
 							return false;
 						}
 					} 	
@@ -430,15 +380,62 @@ class LogoParser {
 						// no else block
 						i = find_right + 1; 
 					}
-					break;						
-				case "repeat":
-					expr = this.evalVars(word_next);
-					try {
-						word_next = eval(expr);
-					} catch (e) {
-						this.pushErr(word, LOGO_ERR_EVAL, word_next);
+					break;	
+				case "to": // define a function
+					let next_word;
+					let funs_name = y.word.trim();
+					if (!isValidVarName(funs_name)) {
+						this.pushErr(word, LOGO_ERR_INVALID_FUN_NAME, funs_name);
 						return false;
-					}				
+					}
+					i = y.next;
+					let start_fun_idx = i;
+					let end_fun_idx = -1;
+					for (;;) {
+						let prev = i;
+						next_word = getNextWord(s, i, U);
+						i = next_word.next;
+						if (next_word.word.toLowerCase() == 'end') {
+							end_fun_idx = prev;
+							break;
+						}
+						if ((next_word.word == '' || next_word.next >= U)) {
+							this.pushErr(word, LOGO_ERR_MISSING_END, next_word);
+							return false;
+						}
+					}
+					if (end_fun_idx == -1) {
+						this.pushErr(word, LOGO_ERR_MISSING_END, '');
+						return false;						
+					}
+					let funs_s = s.substring(start_fun_idx, end_fun_idx).trim();
+					if (funs_s && y) {
+						let ii = 0;
+						let UU = s.length;
+						let funs_params = []; // funs parameter
+						let j = ii;
+						while (ii < U) {
+							j = ii;
+							let to_word = getNextWord(funs_s, ii, UU);
+							ii = to_word.next;
+							if (to_word.word.startsWith(':')) {
+								let to_word_param = to_word.word.substring(1);
+								if (!isValidVarName(to_word_param)) {
+									this.pushErr(word, LOGO_ERR_INVALID_VAR_NAME, to_word_param);
+									return false;
+								}
+								funs_params.push(to_word_param);
+							} else {
+								break;
+							}							
+						}
+						let funs_body = funs_s.substring(j, UU).trim();
+						// declare the function
+						this.funs[funs_name] = [funs_params, funs_body];
+					}
+					break;
+				case "repeat":
+					word_next = this.evalVars(word_next);
 					if ((word_next == '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
 						return false;
@@ -476,6 +473,43 @@ class LogoParser {
 					i = find_right + 1;
 					break;						
 				default:
+					if (word in this.funs) {
+						// it is a function
+						let f_params = this.funs[word][0];
+						let f_body = this.funs[word][1];
+						let f_len = f_params.length;
+						// save the vars for current scope
+						let local_vars = {}						
+						for (let fi = 0; fi < f_len; ++ fi) {
+							let param = getNextWord(s, i, U);
+							i = param.next;
+							word_next = param.word;				
+							expr = this.evalVars(word_next);
+							try {
+								word_next = eval(expr);
+							} catch (e) {
+								this.pushErr(word, LOGO_ERR_EVAL, word_next);
+								return false;
+							}				
+							if ((word_next == '') || (!isNumeric(word_next))) {
+								this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
+								return false;
+							}
+							// save a copy
+							local_vars[f_params[fi]] = this.vars[f_params[fi]];
+							this.addVar(f_params[fi], word_next);
+							if (i >= U) {
+								break;
+							}
+						}
+						let result = this.run(f_body, 0, f_body.length, depth + 1);
+						// restore
+						for (let fi = 0; fi < f_len; ++ fi) {
+							this.vars[f_params[fi]] = local_vars[f_params[fi]];
+						}
+						i = y.next;
+						continue;
+					}
 					this.pushErr(word, LOGO_ERR_UNKNOWN_COMMAND, word);
 					return false;											
 			}		

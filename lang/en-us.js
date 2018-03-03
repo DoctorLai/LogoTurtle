@@ -1,6 +1,7 @@
 'use strict';
 
 let translation_english = {
+	'text_logs': 'Versions History',
 	'supported_commands': 'Supported Commands',
 	'help': 'Help',
 	'canvas': 'Canvas',
