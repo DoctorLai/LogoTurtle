@@ -80,43 +80,63 @@ class LogoParser {
 		}
 	}
 
+	// jump comments and white spaces
+	skipTo(s, i, U) {
+		// skip for white spaces and newlines
+		while ((i < U) && (isSpace(s[i]) || s[i] == '\n')) {
+			i ++;				
+		}
+		if (i >= U) { // reach block end
+			return i;
+		}
+		// skip comments till the end
+		if ((s[i] == ';') || (s[i] == '#')) {
+			i ++;
+			while ((i < U) && (s[i] != '\n')) {
+				i ++;
+			}
+			i ++;
+		}
+		// skip // comments
+		if (i + 1 < U) {
+			if ((s[i] == '/') && (s[i + 1] == '/')) {
+				i += 2;
+				while ((i < U) && (s[i] != '\n')) {
+					i ++;
+				}
+				i ++;
+			}
+		}
+		// skip /* */ comments
+		if (i + 1 < U) {
+			if ((s[i] == '/') && (s[i + 1] == '*')) {
+				i += 2;
+				while ((i < U) && ((s[i] != '*') || (s[i + 1] != '/'))) {
+					i ++;
+				}
+				i += 2;				
+			}
+		}		
+		return i;	
+	}
+
 	// parse a LOGO program source code
 	// source - s
 	// left index - i
 	// right index (not contain) - U
 	run(s, i, U, depth = 0) {
 		let find_left, find_right, repeat_left, repeat_right, find_else;
-		let nested, expr, second_word, second_word_word;
+		let nested, expr, second_word, second_word_word, find_next_body;
 		if (depth > MAX_DEPTH) {
 			// Stack Overflow e.g. recursion without terminating conditions
 			this.pushErr("", LOGO_ERR_STACK_OVERFLOW, depth);
 			return false;
 		}
 		while (i < U) {
-			// skip for white spaces and newlines
-			while ((i < U) && (isSpace(s[i]) || s[i] == '\n')) {
-				i ++;				
-			}
-			if (i >= U) { // reach block end
+			// jump Comments and white spaces
+			i = this.skipTo(s, i, U);
+			if (i >= U) {
 				break;
-			}
-			// skip comments till the end
-			if ((s[i] == ';') || (s[i] == '#')) {
-				while ((i < U) && (s[i] != '\n')) {
-					i ++;
-				}
-				i ++;
-				continue;
-			}
-			// skip // comments
-			if (i + 1 < U) {
-				if ((s[i] == '/') && (s[i + 1] == '/')) {
-					while ((i < U) && (s[i] != '\n')) {
-						i ++;
-					}
-					i ++;
-					continue;
-				}
 			}
 			// get next word and next index
 			let x = getNextWord(s, i, U);
@@ -246,6 +266,28 @@ class LogoParser {
 					this.logo.circle(parseFloat(word_next));
 					i = y.next;
 					break;	
+				case "dotxy":
+					word_next = this.evalVars(word_next);
+					if ((word_next == '') || (!isNumeric(word_next))) {
+						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
+						return false;
+					}
+					second_word = getNextWord(s, y.next, U);
+					second_word_word = second_word.word;
+					expr = this.evalVars(second_word_word);
+					try {
+						second_word_word = eval(expr);
+					} catch (e) {
+						this.pushErr(word, LOGO_ERR_EVAL, expr);
+						return false;
+					}						
+					if ((second_word_word == '') || (!isNumeric(second_word_word))) {
+						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, second_word_word);
+						return false;
+					}					
+					this.logo.dotxy(word_next, second_word_word);
+					i = second_word.next;
+					break;					
 				case "moveto":
 					word_next = this.evalVars(word_next);
 					if ((word_next == '') || (!isNumeric(word_next))) {
@@ -316,7 +358,7 @@ class LogoParser {
 					if (word_next != '[') {
 						this.pushErr(word, LOGO_ERR_MISSING_LEFT);
 					}
-					let find_next_body = getNextBody(s, i, U);
+					find_next_body = getNextBody(s, i, U);
 					if (find_next_body.right >= U) {
 						this.pushErr(word, LOGO_ERR_MISSING_RIGHT);
 						return false;
@@ -325,6 +367,19 @@ class LogoParser {
 					this.logo.drawText(text_to_print);
 					i = find_next_body.right + 1;
 					break;
+				case "js":
+					if (word_next != '[') {
+						this.pushErr(word, LOGO_ERR_MISSING_LEFT);
+					}
+					find_next_body = getNextBody(s, i, U);
+					if (find_next_body.right >= U) {
+						this.pushErr(word, LOGO_ERR_MISSING_RIGHT);
+						return false;
+					}
+					let js_code = s.substring(find_next_body.left + 1, find_next_body.right);
+					eval(js_code);
+					i = find_next_body.right + 1;
+					break;					
 				case "if":
 					word_next = this.evalVars(word_next);				
 					if (word_next === '') {

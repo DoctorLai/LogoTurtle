@@ -151,8 +151,13 @@ class LogoCanvas {
 
 	// draw a dot
 	dot() {
-		this.ctx.fillRect(this.x + this.cx, this.y + this.cy, this.lineWidth, this.lineWidth);
+		this.dotxy(this.x, this.y);
 	}
+
+	// draw a dot at (x, y)
+	dotxy(x, y) {
+		this.ctx.fillRect(x + this.cx, y + this.cy, this.lineWidth, this.lineWidth);
+	}	
 
 	// pen up
 	pu() {
@@ -205,12 +210,6 @@ class LogoCanvas {
 
 	// moveTo
 	moveTo(nx, ny) {
-		let ox = nx + this.cx;
-		let oy = ny + this.cy;
-		ox = ox % this.width;
-		oy = oy % this.height;
-		nx = ox - this.cx;
-		ny = oy - this.cy;
 		if (this.pendown) {
 			this.drawTo(nx, ny)
 		}
