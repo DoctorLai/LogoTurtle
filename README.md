@@ -1,6 +1,7 @@
 # LogoTurtle
 I believe this is the First Open Source Logo Programming in Chrome Extension.
 
+![](https://helloacm.com/wp-content/uploads/2018/03/logo-spiral.jpg)
 ![](https://github.com/DoctorLai/LogoTurtle/blob/master/images/if-else.jpg?raw=true)
 ![](https://helloacm.com/wp-content/uploads/2018/03/logo-tree.jpg)
 
@@ -19,6 +20,7 @@ Github: https://github.com/DoctorLai/LogoTurtle/
 5. Submit a pull request.
 
 # Blog Posts
+- v0.0.8: [Turtle Programming v0.0.8: comments, dotxy, and javascript!](https://helloacm.com/turtle-programming-v0-0-8-comments-dotxy-and-javascript/)
 - v0.0.7: [Turtle Programming v0.0.7:  Functions with Parameters + Recursion!](https://helloacm.com/turtle-programming-v0-0-7-functions-with-parameters-recursion/)
 - v0.0.6: [Turtle Programming v0.0.6: Adding Circle, MoveTo, Turn and Screen!](https://helloacm.com/turtle-programming-v0-0-6-adding-circle-moveto-turn-and-screen/)
 - v0.0.5: [Turtle Programming v0.0.5: Adding IF/ELSE and STOP!](https://helloacm.com/turtle-programming-v0-0-5-adding-if-else-and-stop/)
