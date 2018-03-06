@@ -63,11 +63,13 @@ class LogoCanvas {
 	// set line color
 	setLineColor(c) {
 		this.lineColor = c;
+		this.ctx.strokeStyle = this.lineColor;		
 	}
 
 	// set line width
 	setLineWidth(c) {
 		this.lineWidth = c;
+		this.ctx.lineWidth = this.lineWidth;		
 	}
 
 	// get line color
@@ -156,7 +158,9 @@ class LogoCanvas {
 
 	// draw a dot at (x, y)
 	dotxy(x, y) {
+		this.ctx.beginPath();
 		this.ctx.fillRect(x + this.cx, y + this.cy, this.lineWidth, this.lineWidth);
+		this.ctx.stroke();
 	}	
 
 	// pen up
@@ -188,6 +192,10 @@ class LogoCanvas {
 		this.ctx.stroke();
 	}	
 
+	_equalPixel(a, b) {
+		return ((a[0] == b[0]) && (a[1] == b[1]) && (a[2] == b[2]) && (a[3] == b[3]));
+	}
+
 	// draw a line
 	draw(x1, y1, x2, y2) {
 		this.ctx.beginPath();
@@ -196,6 +204,65 @@ class LogoCanvas {
 		this.ctx.moveTo(x1 + this.cx, this.cy + y1);
 		this.ctx.lineTo(x2 + this.cx, this.cy + y2);
 		this.ctx.stroke();
+	}
+
+	// fill rec
+	fillRec(width, height) {
+		let xx, yy;
+		if (width > 0) {
+			xx = this.cx + this.x;
+		} else {
+			xx = this.cx - this.x;
+		}
+		if (height > 0) {
+			yy = this.cy - this.y;
+		} else {
+			yy = this.cy + this.y;
+		}
+		this.ctx.fillStyle = this.lineColor;
+		this.ctx.fillRect(xx, yy, width, height);
+	}
+
+	square(width) {
+		this.fillRec(width, width);
+	}
+
+	// fill from current pixel
+	fill() {
+		let _x = this.x + this.cx;
+		let _y = this.y + this.cy;
+		let p = this.ctx.getImageData(_x, _y, 1, 1);
+		let q = new Queue();
+		let c;
+		q.enqueue({x: _x, y: _y});			
+		while (!q.isEmpty()) {
+			let cur = q.dequeue();
+			this.dotxy(cur.x - this.cx, cur.y - this.cy);
+			if (cur.x > 0) {
+				c = this.ctx.getImageData(cur.x - 1, cur.y, 1, 1);
+				if (this._equalPixel(c, p)) {
+					q.enqueue({x: cur.x - 1, y: cur.y});
+				}
+			}
+			if (cur.x < this.width) {
+				c = this.ctx.getImageData(cur.x + 1, cur.y, 1, 1);
+				if (this._equalPixel(c, p)) {
+					q.enqueue({x: cur.x + 1, y: cur.y});
+				}
+			}			
+			if (cur.y < this.height) {
+				c = this.ctx.getImageData(cur.x, cur.y + 1, 1, 1);
+				if (this._equalPixel(c, p)) {
+					q.enqueue({x: cur.x, y: cur.y + 1});
+				}
+			}	
+			if (cur.y > 0) {
+				c = this.ctx.getImageData(cur.x, cur.y - 1, 1, 1);
+				if (this._equalPixel(c, p)) {
+					q.enqueue({x: cur.x, y: cur.y - 1});
+				}
+			}					
+		}
 	}
 
 	// drawto
@@ -211,12 +278,30 @@ class LogoCanvas {
 	// moveTo
 	moveTo(nx, ny) {
 		if (this.pendown) {
-			this.drawTo(nx, ny)
+			this.drawTo(nx, ny);
 		}
 		this.x = nx;
 		this.y = ny;
 		this.setTurtle(this.x, this.y);
 	}
+
+	// setX
+	moveToX(nx) {
+		if (this.pendown) {
+			this.drawTo(nx, this.y);
+		}
+		this.x = nx;
+		this.setTurtle(this.x, this.y);
+	}
+
+	// setX
+	moveToY(ny) {
+		if (this.pendown) {
+			this.drawTo(this.x, ny);
+		}
+		this.y = ny;
+		this.setTurtle(this.x, this.y);
+	}	
 
 	// get x
 	getX() {

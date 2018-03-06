@@ -198,6 +198,28 @@ class LogoParser {
 					break;
 				case "stop":
 					return false;
+				case "rect":
+					word_next = this.evalVars(word_next);
+					if ((word_next == '') || (!isNumeric(word_next))) {
+						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
+						return false;
+					}
+					second_word = getNextWord(s, y.next, U);
+					second_word_word = second_word.word;
+					expr = this.evalVars(second_word_word);
+					try {
+						second_word_word = eval(expr);
+					} catch (e) {
+						this.pushErr(word, LOGO_ERR_EVAL, expr);
+						return false;
+					}						
+					if ((second_word_word == '') || (!isNumeric(second_word_word))) {
+						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, second_word_word);
+						return false;
+					}					
+					this.logo.fillRec(word_next, second_word_word);
+					i = second_word.next;
+					break;
 				case "pd":
 				case "pendown":
 					this.logo.pd();
@@ -213,6 +235,15 @@ class LogoParser {
 					this.logo.fd(parseFloat(word_next));
 					i = y.next;
 					break;
+				case "square":
+					word_next = this.evalVars(word_next);
+					if ((word_next == '') || (!isNumeric(word_next))) {
+						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
+						return false;
+					}
+					this.logo.square(parseFloat(word_next));
+					i = y.next;
+					break;						
 				case "jump":
 				case "jmp":
 					word_next = this.evalVars(word_next);
@@ -227,7 +258,25 @@ class LogoParser {
 						this.logo.pd();
 					}
 					i = y.next;
-					break;					
+					break;	
+				case "setx":
+					word_next = this.evalVars(word_next);
+					if ((word_next == '') || (!isNumeric(word_next))) {
+						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
+						return false;
+					}
+					this.logo.moveToX(parseFloat(word_next));
+					i = y.next;
+					break;		
+				case "sety":
+					word_next = this.evalVars(word_next);
+					if ((word_next == '') || (!isNumeric(word_next))) {
+						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
+						return false;
+					}
+					this.logo.moveToY(-parseFloat(word_next));
+					i = y.next;
+					break;														
 				case "bk":
 				case "backward":
 					word_next = this.evalVars(word_next);
