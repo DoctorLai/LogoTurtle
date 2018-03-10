@@ -29,6 +29,8 @@ class LogoCanvas {
 		this.error = '';
 		this.setTurtle(0, 0);
 		this.setTurtleAngle(this.angle);
+		// normal pen
+		this.penmode = 'pen';
 	}
 
 	// error messages;
@@ -52,6 +54,21 @@ class LogoCanvas {
 	lt(ang) {
 		this.rt(-ang);
 		this.setTurtleAngle(this.angle);
+	}
+
+	// eraser
+	eraser() {
+		this.penmode = 'eraser';
+		this.ctx.globalCompositeOperation = "destination-out";
+	}
+
+	pen() {
+		this.penmode = 'pen';
+		this.ctx.globalCompositeOperation = "source-over";
+	}
+
+	getPenMode() {
+		return this.penmode;
 	}
 
 	// set screen color
@@ -136,6 +153,28 @@ class LogoCanvas {
 		this.ctx.font = x + "px Arial";
 	}
 
+	// set pen color, old compatability
+	setPc(x) {
+		switch (x) {
+			case 0: this.setLineColor("black"); break;
+			case 1: this.setLineColor("blue"); break;
+			case 2: this.setLineColor("green"); break;
+			case 3: this.setLineColor("cyan"); break;
+			case 4: this.setLineColor("red"); break;
+			case 5: this.setLineColor("magenta"); break;
+			case 6: this.setLineColor("yellow"); break;
+			case 7: this.setLineColor("white"); break;
+			case 8: this.setLineColor("brown"); break;
+			case 9: this.setLineColor("rgb(197,136,18)"); break;
+			case 10: this.setLineColor("rgb(100,162,64)"); break;
+			case 11: this.setLineColor("rgb(120,87,187)"); break;
+			case 12: this.setLineColor("rgb(255,149,119)"); break;
+			case 13: this.setLineColor("rgb(144,113,208)"); break;
+			case 14: this.setLineColor("rgb(255,163,0)"); break;
+			case 15: this.setLineColor("rgb(183,183,183)"); break;			
+		}
+	}
+
 	// get font size
 	getFontSize() {
 		return this.fontsize;
@@ -199,7 +238,12 @@ class LogoCanvas {
 	// draw a line
 	draw(x1, y1, x2, y2) {
 		this.ctx.beginPath();
-		this.ctx.strokeStyle = this.lineColor;
+		if (this.penmode == 'pen') {
+			this.ctx.globalCompositeOperation = "source-over";
+			this.ctx.strokeStyle = this.lineColor;
+		} else {
+			this.ctx.globalCompositeOperation = "destination-out";
+		}		
 		this.ctx.lineWidth = this.lineWidth;
 		this.ctx.moveTo(x1 + this.cx, this.cy + y1);
 		this.ctx.lineTo(x2 + this.cx, this.cy + y2);
@@ -209,18 +253,15 @@ class LogoCanvas {
 	// fill rec
 	fillRec(width, height) {
 		let xx, yy;
-		if (width > 0) {
-			xx = this.cx + this.x;
-		} else {
-			xx = this.cx - this.x;
-		}
-		if (height > 0) {
-			yy = this.cy - this.y;
-		} else {
-			yy = this.cy + this.y;
-		}
+		xx = this.cx + this.x;
+		yy = this.cy + this.y;
 		this.ctx.fillStyle = this.lineColor;
 		this.ctx.fillRect(xx, yy, width, height);
+	}
+
+	// wait in milliseconds
+	wait(ms) {
+		sleep(ms);
 	}
 
 	square(width) {

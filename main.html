@@ -57,6 +57,7 @@
       <div id="tabs-help">
         <h4 id='text_logs'>Logs</h4>
         <ul>
+          <li><a target=_blank href="https://helloacm.com/turtle-programming-v0-0-9-add-setx-sety-square-and-rect/">v0.0.9: programmingTurtle Programming v0.0.9: Add SetX, SetY, Square and Rect!</a></li>
           <li><a target=_blank href="https://helloacm.com/turtle-programming-v0-0-8-comments-dotxy-and-javascript/">v0.0.8: Turtle Programming v0.0.8: /* */ comments, dotxy, and javascript!</a></li>
           <li><a target=_blank href="https://helloacm.com/turtle-programming-v0-0-7-functions-with-parameters-recursion/">v0.0.7: Turtle Programming v0.0.7: Functions with Parameters + Recursion!</a></li>
           <li><a target=_blank href="https://helloacm.com/turtle-programming-v0-0-6-adding-circle-moveto-turn-and-screen/">v0.0.6: Turtle Programming: Adding Circle, MoveTo, Turn and Screen!</a></li>
@@ -66,6 +67,40 @@
           <li><a target=_blank href="https://helloacm.com/logoturtle-v0-0-2-showturtle-hideturtle-color-width-and-help/">v0.0.2: LogoTurtle v0.0.2: ShowTurtle, HideTurtle, Color, Width and Help.</a></li>
           <li><a target=_blank href="https://helloacm.com/teach-your-kids-programming-the-first-logo-interpreter-turtle-graphics-in-chrome-extension/">v0.0.1: Teach Your Kids Programming - The First Logo Interpreter (Turtle Graphics) in Chrome Extension!</a></li>
         </ul>        
+        <h4 id='examples'>Examples</h4>
+<ul>
+  <li><div id='chess_board'>Chess Board</div>
+<pre>
+TO FK :B
+  HT # hide the turtle
+  IF :B&gt;15 [STOP]
+  REPEAT 4 [FD :B RT 90]
+  FK :B+1 # draw a bigger square to fill
+END
+
+TO QP :Y
+  IF :Y&gt;4 [STOP]
+  REPEAT 4 [FK 15 FD 15 FK 1 FD 15]
+  RT 90 FD 30 RT 90
+  REPEAT 4 [FK 15 FD 15 FK 1 FD 15]
+  RT 180
+  QP :Y+1
+END
+
+QP 1
+</pre>          
+</li>
+<li><div id='frac_star'>Fractal Stars</div>
+<pre>
+cs ht
+to star :size :small
+    if :size&lt;:small [stop]
+    repeat 5 [fd :size star :size*0.3 :small rt 144]
+end
+star 200 10
+</pre>
+</li>  
+</ul>
         <h4 id='supported_commands'>Support Commands</h4>
         <ul>
           <li>FD, FORWARD, WALK</li>
@@ -91,7 +126,7 @@
           <li>TURN</li>
           <li>CIRCLE</li>
           <li>SCREEN</li>
-          <li>MOVETO</li>
+          <li>SETXY, MOVETO</li>
           <li>TO, END</li>
           <li>DOTXY</li>
           <li>JS</li>
@@ -99,10 +134,16 @@
           <li>SQUARE</li>
           <li>SETX</li>
           <li>SETY</li>
+          <li>PENERASE, PE</li>
+          <li>PENPAINT, PPT</li>
+          <li>WAIT</li>
+          <li>SETPC</li>
+          <li>CONSOLE</li>
+          <li>:RANDOM</li>
         </ul>
       </div>        
       <div id="tabs-log">
-        <h4><span id='proudly_brought_to_you_by'>Proudly brought to you by</span> <a target=_blank href="https://steemit.com/@justyy">@justyy</a></h4>
+        <h4><span id='proudly_brought_to_you_by'>Proudly brought to you by</span> <a target=_blank href="https://steemit.com/@justyy">@justyy</a> (<a target=_blank id='report_bugs' href="https://steakovercooked.com/Contact.Mail?title=LogoTurtle">Report Bugs</a>)</h4>
         <textarea readonly class='form-control' rows=15 id='about'>           
         </textarea>     
         <BR/>

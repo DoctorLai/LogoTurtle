@@ -1,6 +1,10 @@
 'use strict';
 
 let translation_english = {
+	'frac_star': 'Fractal Stars',
+	'report_bugs': 'Report Bugs',
+	'examples': 'Examples',
+	'chess_board': 'Chess Board',
 	'text_logs': 'Versions History',
 	'supported_commands': 'Supported Commands',
 	'help': 'Help',

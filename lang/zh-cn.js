@@ -1,6 +1,10 @@
 'use strict';
 
 let translation_simplified_chinese = {
+	'frac_star': '分形五角星',
+	'report_bugs': '提交BUG',
+	'examples': '例子',
+	'chess_board': '国际象棋棋盘',	
 	'text_logs': '版本记录',
 	'supported_commands': '已支持的命令',
 	'help': '帮助',

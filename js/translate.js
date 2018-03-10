@@ -16,7 +16,11 @@ const translation = (lang) => {
     translate_text($('h4#text_ui_language'), lang, 'ui_language');
     translate_text($('h4#text_logs'), lang, 'text_logs');
     translate_text($('a#text_help'), lang, 'help');
+    translate_text($('a#report_bugs'), lang, 'report_bugs');
     translate_text($('h4#supported_commands'), lang, 'supported_commands');
+    translate_text($('h4#examples'), lang, 'examples');
+    translate_text($('div#chess_board'), lang, 'chess_board');
+    translate_text($('div#frac_star'), lang, 'frac_star');
     translate_text($('button#setting_save_btn'), lang, 'save');
 	translate_text($('span#proudly_brought_to_you_by'), lang, 'proudly_brought_to_you_by');
 }

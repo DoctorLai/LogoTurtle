@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });      
     let canvas = document.getElementById('logo');
     let logo = new LogoCanvas(canvas, $('#turtle'));
-    let logoparser = new LogoParser(logo);
+    let log = $('textarea#about');
+    let logoparser = new LogoParser(logo, log);
     $('button#run').click(function() {
         let s = $('textarea#console').val().trim();
         logoparser.clearErr();
