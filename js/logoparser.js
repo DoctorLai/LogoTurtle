@@ -9,8 +9,10 @@ class LogoParser {
 		this.clearErr();
 		this.vars = {};
 		this.funs = {};
-		this['random'] = Math.random();
-		this['RANDOM'] = Math.random();
+		this.vars['random'] = Math.random();
+		this.vars['turtlex'] = 0;
+		this.vars['turtley'] = 0;
+		this.vars['turtleangle'] = 0;
 	}
 
 	// push a varaible
@@ -20,6 +22,8 @@ class LogoParser {
 
 	// find a variable
 	getVar(name) {
+		// case in-sensitive
+		name = name.toLowerCase();
 		if (name in this.vars) {
 			return this.vars[name];
 		}
@@ -64,11 +68,18 @@ class LogoParser {
 		}
 	}
 
+	updateVars() {
+		this.vars['random'] = Math.random();
+		this.vars['turtlex'] = this.logo.getX();
+		this.vars['turtley'] = this.logo.getY();
+		this.vars['turtleangle'] = this.logo.getAngle();		
+	}
+
 	// eval variables
 	evalVars(s) {
 		let var_arr = parseVarName(s);
 		let varlen = var_arr.length;		
-		this.vars['random'] = Math.random();
+		this.updateVars();
 		for (let i = 0; i < varlen; ++ i) {
 			let var_name = var_arr[i].substring(1);		
 			let local = this.getVar(var_name);			
@@ -129,7 +140,7 @@ class LogoParser {
 	// right index (not contain) - U
 	run(s, i, U, depth = 0) {
 		let find_left, find_right, repeat_left, repeat_right, find_else;
-		let nested, expr, second_word, second_word_word, find_next_body;
+		let nested, expr, second_word, second_word_word, find_next_body, ifelse;
 		if (depth > MAX_DEPTH) {
 			// Stack Overflow e.g. recursion without terminating conditions
 			this.pushErr("", LOGO_ERR_STACK_OVERFLOW, depth);
@@ -413,7 +424,7 @@ class LogoParser {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, second_word_word);
 						return false;
 					}					
-					this.logo.moveTo(word_next, second_word_word);
+					this.logo.moveTo(word_next, -second_word_word);
 					i = second_word.next;
 					break;									
 				case "screen":
@@ -520,7 +531,7 @@ class LogoParser {
 					if (find_right >= U) {
 						this.pushWarning(word, LOGO_ERR_MISSING_RIGHT);						
 					}					
-					let ifelse = iftrue(word_next);					
+					ifelse = iftrue(word_next);					
 					if (ifelse) {
 						// if body
 						if (!this.run(s, repeat_left, find_right, depth + 1)) {		
@@ -636,7 +647,109 @@ class LogoParser {
 						}
 					}
 					i = find_right + 1;
-					break;						
+					break;		
+				case "while":
+					find_left = getNextWord(s, y.next, U);
+					if (find_left.word != '[') {
+						this.pushErr(word, LOGO_ERR_MISSING_LEFT, find_left.word);
+						return false;
+					}
+					repeat_left = find_left.next;
+					find_right = repeat_left + 1;
+					nested = 1;
+					// need to match [ and ]
+					while (find_right < U) {
+						if (s[find_right] == '[') {
+							nested ++;
+						}												
+ 						if (s[find_right] == ']') {
+ 							nested --;
+ 							if (nested == 0) {
+ 								break;
+ 							}
+ 						}
+ 						find_right ++;
+					}
+					if (find_right >= U) {
+						this.pushWarning(word, LOGO_ERR_MISSING_RIGHT);						
+					}
+					let tmp = word_next;
+					while (true) {
+						// re-evaluate the while expression
+						word_next = this.evalVars(tmp);
+						if (word_next === '') {
+							this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
+							return false;
+						}
+						if (!iftrue(word_next)) {
+							// while expression evaluated to false
+							break;
+						}
+						// while loop body
+						if (!this.run(s, repeat_left, find_right, depth + 1)) {
+							return false;
+						}
+					}
+					i = find_right + 1;
+					break;					
+				case "do":
+					find_left = getNextWord(s, y.next, U);
+					if (find_left.word != '[') {
+						this.pushErr(word, LOGO_ERR_MISSING_LEFT, find_left.word);
+						return false;
+					}
+					repeat_left = find_left.next;
+					find_right = repeat_left + 1;
+					nested = 1;
+					// need to match [ and ]
+					while (find_right < U) {
+						if (s[find_right] == '[') {
+							nested ++;
+						}												
+ 						if (s[find_right] == ']') {
+ 							nested --;
+ 							if (nested == 0) {
+ 								break;
+ 							}
+ 						}
+ 						find_right ++;
+					}
+					if (find_right >= U) {
+						this.pushWarning(word, LOGO_ERR_MISSING_RIGHT);						
+					}
+					let do_exp = word_next;													
+					word_next = this.evalVars(do_exp);			
+					ifelse = iftrue(word_next);
+					if (word_next === '') {
+						this.pushErr(word, LOGO_ERR_MISSING_EXP, word_next);
+						return false;
+					}												
+					while (iftrue(word_next)) {
+						// do body
+						if (!this.run(s, repeat_left, find_right, depth + 1)) {		
+							return false;
+						}
+						word_next = this.evalVars(do_exp);
+					} 	
+					find_else = getNextWord(s, find_right + 1, U);
+					if (find_else.word.toLowerCase() == 'else') {
+						let else_block = getNextBody(s, find_else.next, U);
+						if (else_block.ch != '[') {
+							this.pushErr(word, LOGO_ERR_MISSING_LEFT, else_block.ch);
+							return false;
+						}
+						if (!ifelse) {
+							// else body
+							if (!this.run(s, else_block.left, else_block.right, depth + 1)) {
+								return false;
+							}
+						}
+						i = else_block.right + 1;
+					} else {
+						// no else block
+						i = find_right + 1; 
+					}
+					break;											
 				default:
 					word = word.toLowerCase();
 					if (word in this.funs) {

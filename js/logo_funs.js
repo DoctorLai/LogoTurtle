@@ -95,7 +95,7 @@ const getNextBody = (s, i, U) => {
 
 // check if valid var_name
 const isValidVarName = (x) => {
-	let pat = /^[a-zA-Z]+[a-zA-Z0-9]*$/g;
+	let pat = /^[a-zA-Z_]+[a-zA-Z0-9_]*$/g;
 	return pat.test(x);
 }
 
@@ -127,4 +127,11 @@ const iftrue = (x) => {
 			return x.toLowerCase() == 'true';
 	}
 	return false;
+}
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+	module.exports = {
+		isNumeric,
+		isValidVarName
+	}
 }
