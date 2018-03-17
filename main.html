@@ -101,7 +101,16 @@ to star :size :small
 end
 star 200 10
 </pre>
-</li>  
+</li> 
+<li>
+<pre>
+ht cs for [i 0 360 45] [seth :i make "n 0 
+  repeat 80 [setpc :random*15 
+    repeat 8 [fd :n rt 45] make "n :n+1
+  ] 
+]
+</pre>
+</li> 
 </ul>
         <h4 id='supported_commands'>Support Commands</h4>
         <ul>
