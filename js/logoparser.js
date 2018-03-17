@@ -9,10 +9,6 @@ class LogoParser {
 		this.clearErr();
 		this.vars = {};
 		this.funs = {};
-		this.vars['random'] = Math.random();
-		this.vars['turtlex'] = 0;
-		this.vars['turtley'] = 0;
-		this.vars['turtleangle'] = 0;
 	}
 
 	// push a varaible
@@ -22,8 +18,6 @@ class LogoParser {
 
 	// find a variable
 	getVar(name) {
-		// case in-sensitive
-		name = name.toLowerCase();
 		if (name in this.vars) {
 			return this.vars[name];
 		}
@@ -70,6 +64,7 @@ class LogoParser {
 
 	updateVars() {
 		this.vars['random'] = Math.random();
+		this.vars['RANDOM'] = Math.random();
 		this.vars['turtlex'] = this.logo.getX();
 		this.vars['turtley'] = this.logo.getY();
 		this.vars['turtleangle'] = this.logo.getAngle();		
@@ -141,6 +136,7 @@ class LogoParser {
 	run(s, i, U, depth = 0) {
 		let find_left, find_right, repeat_left, repeat_right, find_else;
 		let nested, expr, second_word, second_word_word, find_next_body, ifelse;
+		let the_var_name;
 		if (depth > MAX_DEPTH) {
 			// Stack Overflow e.g. recursion without terminating conditions
 			this.pushErr("", LOGO_ERR_STACK_OVERFLOW, depth);
@@ -249,6 +245,12 @@ class LogoParser {
 					this.logo.wait(parseFloat(word_next));
 					i = y.next;
 					break;
+				case "clear": 
+					// clear workspace variables
+					this.vars = {};
+					// clear all functions
+					this.funs = {};
+					break;
 				case "penpaint":
 				case "ppt":				
 					this.logo.pen();
@@ -277,6 +279,7 @@ class LogoParser {
 					i = y.next;
 					break;			
 				case "setpc":
+				case "setcolor":
 					word_next = this.evalVars(word_next);
 					if ((word_next === '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
@@ -434,14 +437,43 @@ class LogoParser {
 					}
 					this.logo.setScreenColor(word_next);
 					i = y.next;
-					break;							
+					break;
+				case "dec":
+					if (!word_next.startsWith(':')) {
+						this.pushErr(word, LOGO_ERR_MISSING_VAR_NAME, word_next);
+						return false;
+					}
+					the_var_name = word_next.substring(1);
+					if (the_var_name in this.vars) {
+						this.vars[the_var_name] --;
+					} else {
+						this.pushErr(word, LOGO_ERR_INVALID_VAR_NAME, word_next);
+						return false;
+					}
+					i = y.next;
+					break;												
 				case "turn":
+				case "seth":
 					word_next = this.evalVars(word_next);
 					if ((word_next === '') || (!isNumeric(word_next))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
 						return false;
 					}
 					this.logo.setAngle(parseFloat(word_next));
+					i = y.next;
+					break;					
+				case "inc":
+					if (!word_next.startsWith(':')) {
+						this.pushErr(word, LOGO_ERR_MISSING_VAR_NAME, word_next);
+						return false;
+					}
+					the_var_name = word_next.substring(1);
+					if (the_var_name in this.vars) {
+						this.vars[the_var_name] ++;
+					} else {
+						this.pushErr(word, LOGO_ERR_INVALID_VAR_NAME, word_next);
+						return false;
+					}
 					i = y.next;
 					break;
 				case "lt":
@@ -490,17 +522,97 @@ class LogoParser {
 					break;
 				case "js":
 					if (word_next != '[') {
-						this.pushErr(word, LOGO_ERR_MISSING_LEFT);
+						this.pushErr(word, LOGO_ERR_MISSING_LEFT, word_next);
 					}
 					find_next_body = getNextBody(s, i, U);
 					if (find_next_body.right >= U) {
 						this.pushErr(word, LOGO_ERR_MISSING_RIGHT);
 						return false;
 					}
-					let js_code = s.substring(find_next_body.left + 1, find_next_body.right);
+					let js_code = s.substring(find_next_body.left + 1, find_next_body.right).trim();
 					eval(js_code);
 					i = find_next_body.right + 1;
-					break;					
+					break;	
+				case "for":
+					if (word_next != '[') {
+						this.pushErr(word, LOGO_ERR_MISSING_LEFT, word_next);
+					}				
+					find_next_body = getNextBody(s, i, U);
+					if (find_next_body.right >= U) {
+						this.pushErr(word, LOGO_ERR_MISSING_RIGHT);
+						return false;
+					}
+					let for_code = s.substring(find_next_body.left + 1, find_next_body.right).trim();
+					i = find_next_body.right + 1;
+					let for_body = getNextBody(s, i, U);
+					if (for_body.right >= U) {
+						this.pushErr(word, LOGO_ERR_MISSING_RIGHT);
+						return false;
+					}					
+					let for_code2 = s.substring(for_body.left + 1, for_body.right).trim();
+					if ((for_code.length > 0) && (for_code2.length > 0)) {
+						// remove surrounding white spaces
+						let for_code_arr = for_code.split(' ').map(item => item.trim()).filter(x => x != '');
+						// For Syntax: [VarName Start Stop Step]
+						let for_index = 0;
+						let for_var = "";
+						let saved_for_var = null;
+						if (isValidVarName(for_code_arr[0])) {
+							for_var = for_code_arr[0];
+							if (for_var in this.vars) {
+								saved_for_var = this.vars[for_var];
+							}							
+							this.vars[for_var] = 0;
+							for_index ++;
+						}
+						if (for_code_arr.length - for_index < 2) {
+							this.pushErr(word, LOGO_ERR_INVALID_FOR);
+							return false;
+						}
+						if (for_code_arr.length - for_index > 3) {
+							this.pushErr(word, LOGO_ERR_INVALID_FOR);
+							return false;
+						}						
+						let for_start = this.evalVars(for_code_arr[for_index]);
+						let for_stop = this.evalVars(for_code_arr[for_index + 1]);
+						let for_step = 1;
+						if (for_index + 2 < for_code_arr.length) {
+							for_step = this.evalVars(for_code_arr[for_index + 2]);
+						}
+						if ((for_start === '') || (!isNumeric(for_start))) {
+							this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, for_start);
+							return false;
+						}		
+						if ((for_stop === '') || (!isNumeric(for_stop))) {
+							this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, for_stop);
+							return false;
+						}	
+						if ((for_step === '') || (!isNumeric(for_step))) {
+							this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, for_step);
+							return false;
+						}
+						// get for values
+						for_start = parseInt(for_start);
+						for_stop = parseInt(for_stop);
+						for_step = parseInt(for_step);
+						// beware of endless loop ^_^
+						for (let for_loop = for_start; for_loop <= for_stop; for_loop += for_step) {
+							if (for_var != "") {
+								this.vars[for_var] = for_loop;
+							}
+							// if body
+							if (!this.run(for_code2, 0, for_code2.length, depth + 1)) {		
+								return false;
+							}							
+						}
+						// restore loop variable
+						if ((for_var != "") && saved_for_var !== null) {
+							this.vars[for_var] = saved_for_var;
+						}
+					}
+					// parse next token
+					i = for_body.right + 1;					
+					break;										
 				case "if":
 					word_next = this.evalVars(word_next);				
 					if (word_next === '') {
@@ -796,5 +908,11 @@ class LogoParser {
 			}		
 		}	
 		return true; // SUCCESS	
+	}
+}
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+	module.exports = {
+		LogoParser
 	}
 }

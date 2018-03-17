@@ -384,3 +384,9 @@ class LogoCanvas {
 		return this.angle;
 	}
 }
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+	module.exports = {
+		LogoCanvas
+	}
+}

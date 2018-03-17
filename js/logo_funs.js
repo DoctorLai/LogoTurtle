@@ -95,7 +95,7 @@ const getNextBody = (s, i, U) => {
 
 // check if valid var_name
 const isValidVarName = (x) => {
-	let pat = /^[a-zA-Z_]+[a-zA-Z0-9_]*$/g;
+	let pat = /^[a-zA-Z\_]+[a-zA-Z0-9\_]*$/g;
 	return pat.test(x);
 }
 
