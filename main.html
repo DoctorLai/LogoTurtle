@@ -6,6 +6,7 @@
     <meta name="author" content="@justyy">
     <script src="lang/en-us.js"></script>     
     <script src="lang/zh-cn.js"></script>         
+    <script src="lang/zh-tw.js"></script>   
     <script src="js/logo_constants.js"></script>     
     <script src="js/queue.js"></script>     
     <script src="js/logo_funs.js"></script>     
@@ -19,14 +20,7 @@
     <link rel="stylesheet" href="css/jquery-ui.css" />
     <script src="js/jquery-ui.js"></script>   
     <script src="js/translate.js"></script>    
-    <style>
-    .ext-window {width: 800px;}
-    .black {background: black; color: white;}
-    .yellow {color: yellow;}
-    .chart {width: 700px; height: 550px;}
-    #turtle {position: absolute; top; 0; left: 0; width: 20px; height: 20px;}
-    .canvas {position: relative; top; 0; left: 0;}
-    </style>
+    <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
     <div id="tabs" class='ext-window'>
@@ -51,12 +45,16 @@
         <select class="form-control" id="lang">
           <option value="en-us">English</option>
           <option value="zh-cn">简体中文</option>
+          <option value="zh-tw">繁體中文</option>
         </select>
-        <button class="form-control" style='width: 70px' id="setting_save_btn">Save</button>
+        <h4 id="text_procedures">Global Procedures</h4>
+        <textarea class='form-control' placeholder='e.g. TO PROC FD 10 RT 90 END' id='procedures' style='width: 100%' rows=15></textarea>
+        <button class="form-control" style='width: 70px' id="setting_save_btn">Save</button>     
       </div>   
       <div id="tabs-help">
         <h4 id='text_logs'>Logs</h4>
         <ul>
+          <li><a target=_blank href="https://helloacm.com/turtle-programming-v0-0-12-powerful-for-loop-inc-dec-and-on-npm/">v0.0.12: Turtle Programming v0.0.12: Powerful For Loop, INC, DEC, and on NPM!</a></li>
           <li><a target=_blank href="https://helloacm.com/turtle-programming-while-loop-do-else-loop-and-unit-tests-added/">v0.0.11: Turtle Programming: While Loop, Do/Else Loop and Unit Tests Added</a></li>
           <li><a target=_blank href="https://helloacm.com/turtle-programming-fractal-stars-random-console-eraser-setpc-setxy-examples-wait-bug-fixes-and-so-much-more/">v0.0.10: Turtle Programming: Fractal Stars, Random, Console, Eraser, SetPC, SetXY, Examples, Wait, Bug Fixes and So much more!</a></li>
           <li><a target=_blank href="https://helloacm.com/turtle-programming-v0-0-9-add-setx-sety-square-and-rect/">v0.0.9: Turtle Programming v0.0.9: Add SetX, SetY, Square and Rect!</a></li>
@@ -111,6 +109,33 @@ ht cs for [i 0 360 45] [seth :i make "n 0
 ]
 </pre>
 </li> 
+<li><pre>
+to randomwalk
+  repeat 100 [
+    make "r parseInt(:random*3)
+    if :r==0 [fd 20]
+    if :r==1 [rt 90 fd 20]
+    if :r==2 [lt 90 fd 20]
+  ]   
+end
+</pre>
+</li>
+<li>
+<pre>
+to spiral
+  make "n 1
+  while :n&lt;100 [
+    make "n :n+5
+    fd :n rt 90
+  ]
+end
+</pre>
+</li>  
+<li><pre>
+repeat 18[repeat 4[repeat 18[fd 10 rt 5] rt 180]rt 20]
+repeat 18[repeat 18[repeat 4[repeat 18[fd 10 rt 5] rt 160]rt 20] rt 20]
+repeat 4[repeat 9[repeat 4[repeat 9[fd 25 rt 10] repeat 9[ fd 25 lt 10] rt 160] lt 40] rt 90]
+</pre></li>  
 </ul>
         <h4 id='supported_commands'>Support Commands</h4>
         <ul>
@@ -128,7 +153,7 @@ ht cs for [i 0 360 45] [seth :i make "n 0
           <li>CS, CLEARSCREEN</li>
           <li>REPEAT</li>          
           <li>FONTSIZE</li>
-          <li>TEXT</li>  
+          <li>TEXT, LABEL</li>  
           <li>DOT</li>
           <li>JMP, JUMP</li>
           <li>MAKE</li>
@@ -136,7 +161,7 @@ ht cs for [i 0 360 45] [seth :i make "n 0
           <li>STOP</li>
           <li>TURN, SETH</li>
           <li>CIRCLE</li>
-          <li>SCREEN</li>
+          <li>SCREEN, SETSC, SETSCREENCOLOR</li>
           <li>SETXY, MOVETO</li>
           <li>TO, END</li>
           <li>DOTXY</li>
@@ -148,8 +173,8 @@ ht cs for [i 0 360 45] [seth :i make "n 0
           <li>PENERASE, PE</li>
           <li>PENPAINT, PPT</li>
           <li>WAIT</li>
-          <li>SETPC, SETCOLOR</li>
-          <li>CONSOLE</li>
+          <li>PC, SETPC, SETCOLOR, SETPENCOLOR/li>
+          <li>PRINT, CONSOLE</li>
           <li>:RANDOM</li>
           <li>WHILE</li>
           <li>DO/ELSE</li>
@@ -157,10 +182,15 @@ ht cs for [i 0 360 45] [seth :i make "n 0
           <li>INC</li>
           <li>DEC</li>
           <li>CLEAR</li>
+          <li>CLEARCONSOLE</li>
         </ul>
       </div>        
       <div id="tabs-log">
-        <h4><span id='proudly_brought_to_you_by'>Proudly brought to you by</span> <a target=_blank href="https://steemit.com/@justyy">@justyy</a> (<a target=_blank id='report_bugs' href="https://steakovercooked.com/Contact.Mail?title=LogoTurtle">Report Bugs</a>)</h4>
+        <h4><span id='proudly_brought_to_you_by'>Proudly brought to you by</span> <a target=_blank href="https://steemit.com/@justyy">@justyy</a> (<a target=_blank id='report_bugs' href="https://steakovercooked.com/Contact.Mail?title=LogoTurtle">Report Bugs</a>)        
+        </h4>
+        <h5>
+        <a target=_blank href="https://github.com/DoctorLai/LogoTurtle"><B><span id='source_code'>Source Code</span></B>: https://github.com/DoctorLai/LogoTurtle</a>
+        </h5>          
         <textarea readonly class='form-control' rows=15 id='about'>           
         </textarea>     
         <BR/>

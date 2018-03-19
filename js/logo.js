@@ -14,6 +14,7 @@ const saveSettings = (showMsg = true) => {
     let settings = {};
     settings['lang'] = $('select#lang').val();
     settings['console'] = $('textarea#console').val().trim();
+    settings['procedures'] = $('textarea#procedures').val().trim();
     chrome.storage.sync.set({ 
         logosettings: settings
     }, function() {
@@ -34,7 +35,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let log = $('textarea#about');
     let logoparser = new LogoParser(logo, log);
     $('button#run').click(function() {
-        let s = $('textarea#console').val().trim();
+        let s = "";
+        s += $('textarea#procedures').val().trim();
+        s += "\n";
+        s += $('textarea#console').val().trim();        
         logoparser.clearErr();
         logoparser.clearWarning();
         logoparser.run(s, 0, s.length);
@@ -65,8 +69,10 @@ document.addEventListener('DOMContentLoaded', function() {
             let settings = data.logosettings;
             let lang = settings['lang'];
             let console = settings['console'];
+            let procedures = settings['procedures'];
             $("select#lang").val(lang);
             $("textarea#console").val(console);
+            $('textarea#procedures').val(procedures);
         } else {
             // first time set default parameters
         }
@@ -74,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let manifest = chrome.runtime.getManifest();    
         let app_name = manifest.name + " v" + manifest.version;
         // version number
-        $('textarea#about').val(get_text('application') + ': ' + app_name + '\n' + get_text('chrome_version') + ': ' + getChromeVersion());        
+        $('textarea#about').val(get_text('application') + ': ' + app_name + '\n' + get_text('chrome_version') + ': ' + getChromeVersion());
         // translate
         ui_translate();
     });

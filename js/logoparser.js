@@ -9,6 +9,25 @@ class LogoParser {
 		this.clearErr();
 		this.vars = {};
 		this.funs = {};
+		this.loadShortCode();		
+	}
+
+	// add a short function
+	_addShortCode(fun_name, parameters, body) {
+		this.funs[fun_name] = [parameters, body];
+	}
+
+	// add some short funcs
+	loadShortCode() {
+		this._addShortCode("polygon", ["corner", "len"], 
+			"repeat :corner " + 
+			"[fd :len rt 360/:corner]");
+		this._addShortCode("fillsquare", ["size"], 
+			"make \"tmp :size repeat :size " + 
+			"[polygon 4 :tmp-1 dec :tmp]");
+		this._addShortCode("fillpolygon", ["corner", "size"], 
+			"make \"tmp :size repeat :size " +
+			"[polygon :corner :tmp-1 dec :tmp]");
 	}
 
 	// push a varaible
@@ -67,7 +86,7 @@ class LogoParser {
 		this.vars['RANDOM'] = Math.random();
 		this.vars['turtlex'] = this.logo.getX();
 		this.vars['turtley'] = this.logo.getY();
-		this.vars['turtleangle'] = this.logo.getAngle();		
+		this.vars['turtleangle'] = this.logo.getAngle();				
 	}
 
 	// eval variables
@@ -251,6 +270,10 @@ class LogoParser {
 					// clear all functions
 					this.funs = {};
 					break;
+				case "clearconsole": 
+					// clear console
+					this.console.val('');
+					break;					
 				case "penpaint":
 				case "ppt":				
 					this.logo.pen();
@@ -279,14 +302,35 @@ class LogoParser {
 					i = y.next;
 					break;			
 				case "setpc":
+				case "pc":
+				case "setpencolor":
 				case "setcolor":
-					word_next = this.evalVars(word_next);
-					if ((word_next === '') || (!isNumeric(word_next))) {
-						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
-						return false;
+					if (word_next == '[') {
+						find_next_body = getNextBody(s, i, U);
+						if (find_next_body.right >= U) {
+							this.pushErr(word, LOGO_ERR_MISSING_RIGHT);
+							return false;
+						}
+						let rgb = s.substring(find_next_body.left + 1, find_next_body.right);
+						let rgb_arr = rgb.split(' ').map(item => item.trim()).filter(x => x != '');
+						if (rgb_arr.length != 3) {
+							this.pushErr(word, LOGO_ERR_INVALID_RGB, rgb);
+							return false;
+						}
+						let rgb_r = this.evalVars(rgb_arr[0]);
+						let rgb_g = this.evalVars(rgb_arr[1]);
+						let rgb_b = this.evalVars(rgb_arr[2]);
+						this.logo.setLineColor("rgb(" + rgb_r + "," + rgb_g + ", " + rgb_b + ")");
+						i = find_next_body.right + 1;
+					} else {
+						word_next = this.evalVars(word_next);
+						if ((word_next === '') || (!isNumeric(word_next))) {
+							this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, word_next);
+							return false;
+						}
+						this.logo.setPc(parseInt(word_next));
+						i = y.next;
 					}
-					this.logo.setPc(parseInt(word_next));
-					i = y.next;
 					break;										
 				case "jump":
 				case "jmp":
@@ -340,6 +384,7 @@ class LogoParser {
 					this.logo.setFontSize(parseFloat(word_next));
 					i = y.next;
 					break;			
+				case "print":
 				case "console":
 					let cur_console_text, result;
 					if (word_next != '[') {
@@ -431,6 +476,8 @@ class LogoParser {
 					i = second_word.next;
 					break;									
 				case "screen":
+				case "setsc":
+				case "setscreencolor":
 					if ((word_next === '')) {
 						this.pushErr(word, LOGO_ERR_MISSING_PARAM, word_next);
 						return false;
@@ -504,6 +551,7 @@ class LogoParser {
 					i = y.next;
 					break;		
 				case "text":
+				case "label":
 					let text_result;
 					if (word_next != '[') {
 						word_next = this.evalVars(word_next);					

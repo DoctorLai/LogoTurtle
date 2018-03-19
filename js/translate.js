@@ -15,7 +15,9 @@ const translation = (lang) => {
     translate_text($('a#text_log'), lang, 'log');
     translate_text($('h4#text_ui_language'), lang, 'ui_language');
     translate_text($('h4#text_logs'), lang, 'text_logs');
+    translate_text($('h4#text_procedures'), lang, 'text_procedures');
     translate_text($('a#text_help'), lang, 'help');
+    translate_text($('span#source_code'), lang, 'source_code');
     translate_text($('a#report_bugs'), lang, 'report_bugs');
     translate_text($('h4#supported_commands'), lang, 'supported_commands');
     translate_text($('h4#examples'), lang, 'examples');
@@ -31,6 +33,7 @@ const get_lang = () => {
     switch (lang) {
         case 'zh-cn': return (translation_simplified_chinese); 
         case 'en-us': return (translation_english); 
+        case 'zh-tw': return (translation_traditional_chinese); 
     }	
 }
 

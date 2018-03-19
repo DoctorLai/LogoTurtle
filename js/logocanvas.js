@@ -107,6 +107,7 @@ class LogoCanvas {
 	// go home
 	home() {
 		this.moveTo(0, 0);
+		this.setAngle(0);
 	}
 
 	// go home and reset

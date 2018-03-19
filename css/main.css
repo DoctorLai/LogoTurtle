@@ -1,0 +1,7 @@
+.ext-window {width: 800px;}
+.black {background: black; color: white;}
+.yellow {color: yellow;}
+#turtle {position: absolute; top; 0; left: 0; width: 20px; height: 20px;}
+.canvas {position: relative; top; 0; left: 0;}
+textarea {resize: none;}
+pre {width: 99%;}

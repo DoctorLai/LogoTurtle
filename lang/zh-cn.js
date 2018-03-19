@@ -1,6 +1,8 @@
 'use strict';
 
 let translation_simplified_chinese = {
+	'source_code': '源代码',
+	'text_procedures': '全局方法',
 	'frac_star': '分形五角星',
 	'report_bugs': '提交BUG',
 	'examples': '例子',

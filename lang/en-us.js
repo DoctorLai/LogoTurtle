@@ -1,6 +1,8 @@
 'use strict';
 
 let translation_english = {
+	'source_code': 'Source Code',
+	'text_procedures': 'Global Procedures',
 	'frac_star': 'Fractal Stars',
 	'report_bugs': 'Report Bugs',
 	'examples': 'Examples',
