@@ -24,7 +24,7 @@ class LogoParser {
 			"[fd :len rt 360/:corner]");
 		this._addShortCode("fillsquare", ["size"], 
 			"make \"tmp :size repeat :size " + 
-			"[polygon 4 :tmp-1 dec :tmp]");
+			"[polygon 4 :tmp dec :tmp]");
 		this._addShortCode("fillpolygon", ["corner", "size"], 
 			"make \"tmp :size repeat :size " +
 			"[polygon :corner :tmp-1 dec :tmp]");
