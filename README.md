@@ -26,6 +26,9 @@ Github: https://github.com/DoctorLai/LogoTurtle/
 5. Submit a pull request.
 
 # Blog Posts
+- v0.0.14: [Turtle Programming: Add Status Bar, Add Repcount and Bug Fixes](https://helloacm.com/logoturtle-v0-0-14-add-status-bar-add-repcount-and-bug-fixes/)
+- v0.0.13: [Turtle Programming: Support RGB, Add ShortCodes, Global Procedures Editor](https://helloacm.com/turtle-programming-v0-0-13-support-rgb-add-shortcodes-global-procedures-editor/)
+- v0.0.12: [Turtle Programming: Powerful For Loop, INC, DEC, and on NPM!](https://helloacm.com/turtle-programming-v0-0-12-powerful-for-loop-inc-dec-and-on-npm/)
 - v0.0.11: [Turtle Programming: While Loop, Do/Else Loop and Unit Tests Added](https://helloacm.com/turtle-programming-while-loop-do-else-loop-and-unit-tests-added/)
 - v0.0.10: [Turtle Programming: Fractal Stars, Random, Console, Eraser, SetPC, SetXY, Examples, Wait, Bug Fixes and So much more!](https://helloacm.com/turtle-programming-fractal-stars-random-console-eraser-setpc-setxy-examples-wait-bug-fixes-and-so-much-more/)
 - v0.0.9: [Turtle Programming v0.0.9: Add SetX, SetY, Square and Rect!](https://helloacm.com/turtle-programming-v0-0-9-add-setx-sety-square-and-rect/)
@@ -36,5 +39,5 @@ Github: https://github.com/DoctorLai/LogoTurtle/
 - v0.0.4: [LogoTurtle: Make Variables and Comments](https://helloacm.com/logoturtle-make-variables-and-comments/)
 - v0.0.3: [Turtle Graphics Programming Update: Adding text, jump, dot, fontsize, download as png](https://helloacm.com/turtle-graphics-programming-update-adding-text-jump-dot-fontsize-download-as-png/)
 - v0.0.2: [LogoTurtle v0.0.2: ShowTurtle, HideTurtle, Color, Width and Help](https://helloacm.com/logoturtle-v0-0-2-showturtle-hideturtle-color-width-and-help/).
-- Teach Your Kids Programming - The First Logo Interpreter (Turtle Graphics) in Chrome Extension!
- [v0.0.1](https://helloacm.com/teach-your-kids-programming-the-first-logo-interpreter-turtle-graphics-in-chrome-extension/)
+- v0.0.1: 
+ [Teach Your Kids Programming - The First Logo Interpreter (Turtle Graphics) in Chrome Extension!](https://helloacm.com/teach-your-kids-programming-the-first-logo-interpreter-turtle-graphics-in-chrome-extension/)
