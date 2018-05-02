@@ -1,6 +1,7 @@
 'use strict';
 
 let translation_traditional_chinese = {
+	'global_vars': '全局變量',
 	'source_code': '源代碼',
 	'text_procedures': '全局方法',
 	'frac_star': '分形五角星',

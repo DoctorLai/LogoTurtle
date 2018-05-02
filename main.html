@@ -137,6 +137,15 @@ repeat 18[repeat 4[repeat 18[fd 10 rt 5] rt 180]rt 20]
 repeat 18[repeat 18[repeat 4[repeat 18[fd 10 rt 5] rt 160]rt 20] rt 20]
 repeat 4[repeat 9[repeat 4[repeat 9[fd 25 rt 10] repeat 9[ fd 25 lt 10] rt 160] lt 40] rt 90]
 </pre></li>  
+<li><pre>
+repeat 100 [fd :repcount*3 rt 90]
+</pre></li>
+<li><pre>
+repeat 36[repeat 36[fd 10 pu fd 10 pd rt 10]lt 10]
+</pre></li>
+<li><pre>
+repeat 72[repeat 4[repeat 4[fd 10 pu fd 20 pd fd 10] rt 90]lt 5]
+</pre></li>  
 </ul>
         <h4 id='supported_commands'>Support Commands</h4>
         <ul>
@@ -174,9 +183,8 @@ repeat 4[repeat 9[repeat 4[repeat 9[fd 25 rt 10] repeat 9[ fd 25 lt 10] rt 160] 
           <li>PENERASE, PE</li>
           <li>PENPAINT, PPT</li>
           <li>WAIT</li>
-          <li>PC, SETPC, SETCOLOR, SETPENCOLOR/li>
+          <li>PC, SETPC, SETCOLOR, SETPENCOLOR</li>
           <li>PRINT, CONSOLE</li>
-          <li>:RANDOM</li>
           <li>WHILE</li>
           <li>DO/ELSE</li>
           <li>FOR</li>
@@ -184,6 +192,14 @@ repeat 4[repeat 9[repeat 4[repeat 9[fd 25 rt 10] repeat 9[ fd 25 lt 10] rt 160] 
           <li>DEC</li>
           <li>CLEAR</li>
           <li>CLEARCONSOLE</li>
+        </ul>
+        <h4 id="global_vars">Global Variables</h4>
+        <ul>
+          <li>:random</li>
+          <li>:repcount</li>
+          <li>:turtlex</li>
+          <li>:turtley</li>
+          <li>:turtleangle</li>
         </ul>
       </div>        
       <div id="tabs-log">
@@ -195,9 +211,13 @@ repeat 4[repeat 9[repeat 4[repeat 9[fd 25 rt 10] repeat 9[ fd 25 lt 10] rt 160] 
         <textarea readonly class='form-control' rows=15 id='about'>           
         </textarea>     
         <BR/>
-        <a target=_blank href='https://www.paypal.me/doctorlai/3'><img src='images/paypal.png' style='height: 70px'></a> &nbsp;
-        <a target=_blank href='https://justyy.com/out/bitcoin'><img src='images/bitcoin.jpg' style='height: 70px'></a>
+        <a target=_blank href='https://www.paypal.me/doctorlai/3'><img src='images/paypal.png' class='banner'></a> &nbsp;
+        <a target=_blank href='https://justyy.com/out/bitcoin'><img src='images/bitcoin.jpg' class='banner'></a>
+        <a target=_blank href='https://justyy.com/out/vultr2'><img title='Free $10 VPS' src='images/vultr.jpg' class='banner'></a>
+        &nbsp;
+        <a target=_blank href='https://justyy.com/out/linode'><img title='Free $20 VPS' src='images/linode.jpg' class='banner'></a>             
       </div>      
     </div>
+    <div id="status"> </div>    
   </body>
 </html>

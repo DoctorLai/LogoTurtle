@@ -33,7 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let canvas = document.getElementById('logo');
     let logo = new LogoCanvas(canvas, $('#turtle'));
     let log = $('textarea#about');
-    let logoparser = new LogoParser(logo, log);
+    let status = $('div#status');
+    let logoparser = new LogoParser(logo, log, status);
+    // update status
+    logoparser.updateStatus();
     $('button#run').click(function() {
         let s = "";
         s += $('textarea#procedures').val().trim();
@@ -52,6 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         // save the source code
         saveSettings(false);
+        // update status
+        logoparser.updateStatus(err);
     });
     $('textarea#console').keydown(function (e) {
         if (e.ctrlKey && e.keyCode == 13) {

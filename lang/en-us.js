@@ -1,6 +1,7 @@
 'use strict';
 
 let translation_english = {
+	'global_vars': 'Global Variables',
 	'source_code': 'Source Code',
 	'text_procedures': 'Global Procedures',
 	'frac_star': 'Fractal Stars',

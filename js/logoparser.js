@@ -2,14 +2,25 @@
 
 class LogoParser {
 	// needs a Logo Object
-	constructor(logo, console) {
+	constructor(logo, console, status) {
 		this.logo = logo;
 		this.console = console;
+		this.status = status;
 		this.clearWarning();
 		this.clearErr();
 		this.vars = {};
-		this.funs = {};
+		this.funs = {};		
 		this.loadShortCode();		
+	}
+
+	// update status
+	updateStatus(text = "") {
+		let msg = "";
+		msg += "(" + this.logo.getX().toFixed(3) + ", " + (-this.logo.getY()).toFixed(3) + "), ";
+		msg += "∠: " + (this.logo.getAngle() % 360).toFixed(3) + ", ";
+		msg += this.logo.isPendown() ? "Pendown" : "Penup";
+		msg += " " + this.getLastErr(text);
+		this.status.html(msg);
 	}
 
 	// add a short function
@@ -22,12 +33,21 @@ class LogoParser {
 		this._addShortCode("polygon", ["corner", "len"], 
 			"repeat :corner " + 
 			"[fd :len rt 360/:corner]");
+		this._addShortCode("star", ["len"], 
+			"repeat 5 " + 
+			"[fd :len rt 144]");		
+		this._addShortCode("tri", ["n"], 
+			"repeat 3 " + 
+			"[fd :n rt 120]");
+		this._addShortCode("cube", ["n"], 
+			"repeat 6 " + 
+			"[tri :n rt 60]");		
 		this._addShortCode("fillsquare", ["size"], 
 			"make \"tmp :size repeat :size " + 
 			"[polygon 4 :tmp dec :tmp]");
 		this._addShortCode("fillpolygon", ["corner", "size"], 
 			"make \"tmp :size repeat :size " +
-			"[polygon :corner :tmp-1 dec :tmp]");
+			"[polygon :corner :tmp dec :tmp]");
 	}
 
 	// push a varaible
@@ -72,6 +92,18 @@ class LogoParser {
 		}
 	}
 
+	// get last err
+	getLastErr(error) {
+		error = error || this.error;
+		error = error.trim();
+		let arr = error.split("\n");
+		console.log(arr);
+		if (arr.length > 0) {
+			return arr[arr.length - 1].trim();
+		}
+		return "";
+	}
+
 	// add a warning
 	pushWarning(cmd, x, word = '') {
 		if (word) {
@@ -86,7 +118,7 @@ class LogoParser {
 		this.vars['RANDOM'] = Math.random();
 		this.vars['turtlex'] = this.logo.getX();
 		this.vars['turtley'] = this.logo.getY();
-		this.vars['turtleangle'] = this.logo.getAngle();				
+		this.vars['turtleangle'] = this.logo.getAngle();			
 	}
 
 	// eval variables
@@ -245,7 +277,7 @@ class LogoParser {
 						this.pushErr(word, LOGO_ERR_EVAL, expr);
 						return false;
 					}						
-					if ((second_word_word == '') || (!isNumeric(second_word_word))) {
+					if ((second_word_word === '') || (!isNumeric(second_word_word))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, second_word_word);
 						return false;
 					}					
@@ -445,7 +477,7 @@ class LogoParser {
 						this.pushErr(word, LOGO_ERR_EVAL, expr);
 						return false;
 					}						
-					if ((second_word_word == '') || (!isNumeric(second_word_word))) {
+					if ((second_word_word === '') || (!isNumeric(second_word_word))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, second_word_word);
 						return false;
 					}					
@@ -468,7 +500,7 @@ class LogoParser {
 						this.pushErr(word, LOGO_ERR_EVAL, expr);
 						return false;
 					}						
-					if ((second_word_word == '') || (!isNumeric(second_word_word))) {
+					if ((second_word_word === '') || (!isNumeric(second_word_word))) {
 						this.pushErr(word, LOGO_ERR_MISSING_NUMBERS, second_word_word);
 						return false;
 					}					
@@ -645,6 +677,9 @@ class LogoParser {
 						for_step = parseInt(for_step);
 						// beware of endless loop ^_^
 						for (let for_loop = for_start; for_loop <= for_stop; for_loop += for_step) {
+							// update repeat count
+							this.addVar('repcount', for_loop - for_start + 1);
+							this.addVar('REPCOUNT', for_loop - for_start + 1);
 							if (for_var != "") {
 								this.vars[for_var] = for_loop;
 							}
@@ -801,6 +836,9 @@ class LogoParser {
 						this.pushWarning(word, LOGO_ERR_MISSING_RIGHT);						
 					}
 					for (let i = 0; i < word_next; ++ i) {
+						// update repeat count
+						this.addVar('repcount', i + 1);
+						this.addVar('REPCOUNT', i + 1);
 						// recursive call repeat body
 						if (!this.run(s, repeat_left, find_right, depth + 1)) {
 							return false;
