@@ -55,6 +55,15 @@ class LogoParser {
 		this.vars[name] = this.evalVars(value);
 	}
 
+	// clear a variable
+	delVar(name) {
+		if (name in this.vars) {
+			delete this.vars[name];
+		} else {
+			this.pushWarning("delVar", name);
+		}
+	}
+
 	// find a variable
 	getVar(name) {
 		if (name in this.vars) {
@@ -296,6 +305,23 @@ class LogoParser {
 					this.logo.wait(parseFloat(word_next));
 					i = y.next;
 					break;
+				case "remove": // e.g. remove "abc
+					if (!word_next.startsWith("\"")) { 
+						// variable must be noted with double quotes
+						this.pushErr(word, LOGO_ERR_MISSING_QUOTE);
+						return false;
+					}
+					// get the variable name
+					let var_name1 = word_next.substring(1); 
+					// not a valid variable name
+					if (!isValidVarName(var_name1)) {
+						this.pushErr(word, LOGO_ERR_INVALID_VAR_NAME);
+						return false;
+					}
+					// remove it from memory
+					this.delVar(var_name1);
+					i = y.next;
+					break;					
 				case "clear": 
 					// clear workspace variables
 					this.vars = {};
