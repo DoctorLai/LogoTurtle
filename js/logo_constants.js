@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const MAX_DEPTH = 1024;
 const LOGO_ERR_STACK_OVERFLOW = 'Stack Overflow';

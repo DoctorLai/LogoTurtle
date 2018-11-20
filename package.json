@@ -14,8 +14,14 @@
     "webpack": "^4.26.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "watch": "webpack --watch"
   },
+  "jshintConfig": {
+    "esversion": 6
+  },  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DoctorLai/LogoTurtle.git"
@@ -31,5 +37,5 @@
   "bugs": {
     "url": "https://github.com/DoctorLai/LogoTurtle/issues"
   },
-  "homepage": "https://github.com/DoctorLai/LogoTurtle#readme"
+  "homepage": "https://chrome.google.com/webstore/detail/logo-turtle/dcoeaobaokbccdcnadncifmconllpihp"
 }
