@@ -10,6 +10,7 @@ class LogoParser {
 		this.clearErr();
 		this.vars = {};
 		this.funs = {};		
+		this.labels = {};
 		this.loadShortCode();		
 	}
 
@@ -217,7 +218,19 @@ class LogoParser {
 			}
 			let lword = word.toLowerCase();
 			let y = getNextWord(s, i, U);
-			let word_next = y.word;			
+			let word_next = y.word;		
+			
+			if (lword[0] == '@') { // label
+				if (lword.length == 1) {
+					this.pushErr(word, OGO_ERR_INVALID_LABEL);
+					return false;
+				}
+				// save the (label, index) into the hash table
+				const label = lword.substring(1);
+				this.labels[label] = i;
+				continue;
+			}
+			
 			switch (lword) {
 				case '[': // ignore additional []
 				case ']':
@@ -269,6 +282,22 @@ class LogoParser {
 						i = word_next2.next + 1;
 					}
 					break;
+				case "goto":
+					if (!word_next.startsWith("@")) { 
+						// variable must be noted with double quotes
+						this.pushErr(word, LOGO_ERR_INVALID_LABEL);
+						return false;
+					}
+					// get the label name
+					let label_1 = word_next.substring(1); 
+					// not a valid variable name
+					if (!this.labels[label_1]) {
+						this.pushErr(word, LOGO_ERR_INVALID_LABEL);
+						return false;
+					}
+					// goto that index
+					i = this.labels[label_1];
+					break;					
 				case "stop":
 					return false;
 				case "rect":
