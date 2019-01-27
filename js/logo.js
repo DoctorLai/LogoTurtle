@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         s += $('textarea#console').val().trim();        
         logoparser.clearErr();
         logoparser.clearWarning();
+        logoparser.scanForLabels(s, 0, s.length);
         logoparser.run(s, 0, s.length);
         let err = logoparser.getErr();
         let warning = logoparser.getWarning();

@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 class LogoParser {
 	// needs a Logo Object
@@ -10,7 +10,43 @@ class LogoParser {
 		this.clearErr();
 		this.vars = {};
 		this.funs = {};		
+		this.labels = {};
 		this.loadShortCode();		
+	}
+
+	// scan the source code and record all the labels with their indice
+	scanForLabels(s, i, U) {
+		let prev = "";
+		while (i < U) {
+			// jump Comments and white spaces
+			i = this.skipTo(s, i, U);
+			if (i >= U) {
+				break;
+			}
+			// get next word and next index
+			let x = getNextWord(s, i, U);
+			i = x.next;
+			let word = x.word;
+			if (word == '') {
+				continue;
+			}
+			let lword = word.toLowerCase();
+			let y = getNextWord(s, i, U);
+			let word_next = y.word;		
+			if ((lword[0] === '@') && (prev !== 'goto')) { // label
+				if (lword.length == 1) {
+					this.pushErr(word, LOGO_ERR_INVALID_LABEL);
+					return false;
+				}
+				// save the (label, index) into the hash table
+				const label = lword.substring(1);
+				this.labels[label] = i;
+				continue;
+			}		
+			i = y.next;
+			prev = word.toLowerCase();
+		}
+		console.log("labels: ", this.labels);
 	}
 
 	// update status
@@ -105,9 +141,9 @@ class LogoParser {
 	getLastErr(error) {
 		error = error || this.error;
 		error = error.trim();
-		let arr = error.split("\n");
-		console.log(arr);
+		let arr = error.split("\n");		
 		if (arr.length > 0) {
+			console.log(arr);
 			return arr[arr.length - 1].trim();
 		}
 		return "";
@@ -217,7 +253,19 @@ class LogoParser {
 			}
 			let lword = word.toLowerCase();
 			let y = getNextWord(s, i, U);
-			let word_next = y.word;			
+			let word_next = y.word;		
+			
+			if (lword[0] == '@') { // label
+				if (lword.length == 1) {
+					this.pushErr(word, OGO_ERR_INVALID_LABEL);
+					return false;
+				}
+				// save the (label, index) into the hash table
+				const label = lword.substring(1);
+				this.labels[label] = i;
+				continue;
+			}
+			
 			switch (lword) {
 				case '[': // ignore additional []
 				case ']':
@@ -269,6 +317,22 @@ class LogoParser {
 						i = word_next2.next + 1;
 					}
 					break;
+				case "goto":
+					if (!word_next.startsWith("@")) { 
+						// variable must be noted with double quotes
+						this.pushErr(word, LOGO_ERR_INVALID_LABEL);
+						return false;
+					}
+					// get the label name
+					let label_1 = word_next.substring(1); 
+					// not a valid variable name
+					if (!this.labels[label_1]) {
+						this.pushErr(word, LOGO_ERR_INVALID_LABEL);
+						return false;
+					}
+					// goto that index
+					i = this.labels[label_1];
+					break;					
 				case "stop":
 					return false;
 				case "rect":
@@ -729,7 +793,7 @@ class LogoParser {
 						return false;
 					}
 					find_left = getNextWord(s, y.next, U);
-					if (find_left.word != '[') {
+					if (find_left.word !== '[') {
 						this.pushErr(word, LOGO_ERR_MISSING_LEFT, find_left.word);
 						return false;
 					}
@@ -738,10 +802,10 @@ class LogoParser {
 					nested = 1;
 					// need to match [ and ]
 					while (find_right < U) {
-						if (s[find_right] == '[') {
+						if (s[find_right] === '[') {
 							nested ++;
 						}												
- 						if (s[find_right] == ']') {
+ 						if (s[find_right] === ']') {
  							nested --;
  							if (nested == 0) {
  								break;
@@ -749,9 +813,11 @@ class LogoParser {
  						}
  						find_right ++;
 					}
+					/*
 					if (find_right >= U) {
 						this.pushWarning(word, LOGO_ERR_MISSING_RIGHT);						
-					}					
+					}
+					*/					
 					ifelse = iftrue(word_next);					
 					if (ifelse) {
 						// if body

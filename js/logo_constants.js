@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const MAX_DEPTH = 1024;
 const LOGO_ERR_STACK_OVERFLOW = 'Stack Overflow';
@@ -16,3 +16,4 @@ const LOGO_ERR_INVALID_FUN_NAME = 'Invalid Function Name';
 const LOGO_ERR_INVALID_RGB = 'RGB Syntax: [Red Green Blue]';
 const LOGO_ERR_INVALID_FOR = 'For Syntax: [VarName Start Stop Step]';
 const LOGO_ERR_EVAL = 'Expression Error';
+const LOGO_ERR_INVALID_LABEL = 'Invalid Label';

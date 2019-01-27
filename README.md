@@ -1,4 +1,7 @@
 # LogoTurtle
+[![Build Status](https://travis-ci.com/DoctorLai/LogoTurtle.svg?branch=master)](https://travis-ci.com/DoctorLai/LogoTurtle)
+[![GitHub license](https://img.shields.io/badge/license-GPL-blue.svg)](https://github.com/DoctorLai/LogoTurtle/blob/master/LICENSE)
+
 I believe this is the First Open Source Logo Programming in Chrome Extension.
 
 # NPM 
@@ -14,8 +17,18 @@ The following two classes have been exported to NPM:
 # Install
 Just install via [Chrome Webstore](https://chrome.google.com/webstore/detail/logo-turtle/dcoeaobaokbccdcnadncifmconllpihp).
 
-# License
-[MIT](https://github.com/DoctorLai/LogoTurtle/blob/master/LICENSE)
+# Unit Tests
+Unit tests are based on `mocha` and `chai`.  Run all tests: `npm run test`.
+
+# Webpack
+Using `npm run build` to pack to `dist/dist.min.js`
+
+# Install on Firefox or other browsers?
+It should work, but not fully tested on Firefox via [Chrome Extension Foxified](https://addons.mozilla.org/en-GB/firefox/addon/chrome-store-foxified/).
+
+# Install Unpacked Versions
+- Zipped releases: https://github.com/DoctorLai/LogoTurtle/releases 
+- Download the zip and then you can load unpacked version in Chrome. (under development mode)
 
 # Contribution Welcome
 Github: https://github.com/DoctorLai/LogoTurtle/

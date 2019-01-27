@@ -1,4 +1,7 @@
-'use strict';
+/* jshint -W117 */
+/* jshint -W097 */
+/* jshint -W119 */
+"use strict";
 
 // button click when press enter in text
 const textPressEnterButtonClick = (text, button) => {
@@ -11,13 +14,13 @@ const textPressEnterButtonClick = (text, button) => {
 
 // get chrome version
 const getChromeVersion = () => {
-    var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+    const raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
     return raw ? parseInt(raw[2], 10) : false;
 }
 
 // Delay for a number of milliseconds
 const sleep = (ms) => {
-    let start = new Date().getTime();
+    const start = new Date().getTime();
     // busy waiting
     while (new Date().getTime() <= start + ms);
 }
