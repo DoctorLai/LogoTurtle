@@ -147,6 +147,19 @@ repeat 36[repeat 36[fd 10 pu fd 10 pd rt 10]lt 10]
 <li><pre>
 repeat 72[repeat 4[repeat 4[fd 10 pu fd 20 pd fd 10] rt 90]lt 5]
 </pre></li>  
+<li><pre>
+  rt 10
+  goto @start
+  repeat [5 fd 100 rt 144]
+  @start
+  make "i 0
+  @hello
+  fd 100
+  rt 90
+  make "i :i+1
+  if :i<4  [goto @hello] 
+  fd 100  
+</pre></li>
 </ul>
         <h4 id='supported_commands'>Support Commands</h4>
         <ul>
@@ -194,6 +207,7 @@ repeat 72[repeat 4[repeat 4[fd 10 pu fd 20 pd fd 10] rt 90]lt 5]
           <li>CLEAR</li>
           <li>REMOVE</li>
           <li>CLEARCONSOLE</li>
+          <li>GOTO</li>
         </ul>
         <h4 id="global_vars">Global Variables</h4>
         <ul>
