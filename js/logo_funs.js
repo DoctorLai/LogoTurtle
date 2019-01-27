@@ -132,6 +132,8 @@ const iftrue = (x) => {
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
 	module.exports = {
 		isNumeric,
-		isValidVarName
+		isValidVarName,
+		getNextBody,
+		getNextWord
 	}
 }
