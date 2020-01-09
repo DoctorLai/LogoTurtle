@@ -19,10 +19,10 @@ const getChromeVersion = () => {
 }
 
 // Delay for a number of milliseconds
-const sleep = (ms) => {
-    const start = new Date().getTime();
-    // busy waiting
-    while (new Date().getTime() <= start + ms);
+async function sleep(milliseconds) {
+    return new Promise(resolve => {
+      setTimeout(resolve, milliseconds);
+    });
 }
 
 /**

@@ -261,8 +261,8 @@ class LogoCanvas {
 	}
 
 	// wait in milliseconds
-	wait(ms) {
-		sleep(ms);
+	async wait(ms) {
+		await sleep(ms);
 	}
 
 	square(width) {

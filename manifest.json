@@ -1,13 +1,13 @@
 {
   "manifest_version": 2,
-  "name": "Logo Turtle",
+  "name": "Logo Turtle Graphics",
   "short_name": "LogoTurtle",  
   "default_locale": "en",
-  "version": "0.0.15.1",
+  "version": "0.0.16",
   "offline_enabled": true,
   "browser_action": {
      "default_icon": "icon.png",
-     "default_title": "Logo Turtle",
+     "default_title": "Logo Turtle Graphics",
      "default_popup": "main.html"
   },
   "author": "justyy<dr.zhihua.lai@gmail.com>",
@@ -17,7 +17,6 @@
     "48": "images/icon-48.png",
     "128": "images/icon-128.png"
   },  
-  "update_url":"http://clients2.google.com/service/update2/crx",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "description": "The Logo Programming (Turtle Graphics) in Chrome Extension.",
   "web_accessible_resources": [
@@ -32,9 +31,6 @@
     "scripts": ["js/background.js"]
   },  
   "permissions": [
-     "activeTab",
-     "storage",
-     "tabs",
-     "<all_urls>"
+     "storage"
   ]
 }
