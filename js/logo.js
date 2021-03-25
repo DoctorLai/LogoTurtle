@@ -69,6 +69,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('download').addEventListener('click', () => {
         chrome.tabs.create({ url: canvas.toDataURL() });
     }, false);
+    // clear screen
+    document.getElementById('csbutton').addEventListener('click', () => {
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);     
+    }, false);
     // load settings
     chrome.storage.sync.get('logosettings', function(data) {
         if (data && data.logosettings) {
