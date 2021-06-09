@@ -32,14 +32,16 @@
       </ul>
       <div id="tabs-canvas">
         <img id=turtle src="images/turtle.png" />
-        <canvas id="logo" class='canvas' width=750 height=380 style='border: 1px dashed'>          
+        <canvas id="logo" class='canvas' width=500 height=480 style='border: 1px dashed'>          
         </canvas>        
-        <form class='form-inline'>
-          <textarea class='form-control' placeholder='e.g. FD 10 RT 90' id='console' style='width:75%; height: 100px' rows=6></textarea>
-          <button type='button' class='form-control' id='run' style='width:8%; height: 100px'>Ctrl + Enter</button>
-          <a id='download' target=_blank><button type='button' class='form-control' style='width:8%; height: 100px'>↓</button></a>
-          <a id='csbutton' target=_blank><button type='button' class='form-control' style='width:7%; height: 100px'>CS</button></a>
-        </form>
+        <span style='float:right'>
+          <textarea class='form-control'wrap='off' placeholder='e.g. FD 10 RT 90' id='console' style='width:240px; height: 465px' rows=6></textarea>
+          <span style='float:right'>
+            <span style='cursor:pointer' id="run">[Ctrl + Enter]</span> - 
+            <a id='download' style='cursor:pointer'  target=_blank>[↓]</a> - 
+            <a id='csbutton' style='cursor:pointer'>[CS]</a>
+          </span>
+        </span>
       </div>   
       <div id="tabs-setting">
         <h4 id="text_ui_language">UI Language</h4>

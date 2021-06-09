@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let logoparser = new LogoParser(logo, log, status);
     // update status
     logoparser.updateStatus();
-    $('button#run').click(function() {
+    $("#run").click(function() {
         let s = "";
         s += $('textarea#procedures').val().trim();
         s += "\n";
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
     $('textarea#console').keydown(function (e) {
         if (e.ctrlKey && e.keyCode == 13) {
             // Ctrl-Enter pressed
-            $('button#run').click();
+            $('#run').click();
         }
     });    
     // open canvas as png in new tab
