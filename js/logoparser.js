@@ -84,6 +84,12 @@ class LogoParser {
 		this._addShortCode("fillpolygon", ["corner", "size"], 
 			"make \"tmp :size repeat :size " +
 			"[polygon :corner :tmp dec :tmp]");
+		this._addShortCode("spiral", ["size"],
+			"make \"n 1 " +
+			"while :n<:size [ " +
+			"make \"n :n+5 " +
+			"fd :n rt 90 " +
+			"] " );
 	}
 
 	// push a varaible
