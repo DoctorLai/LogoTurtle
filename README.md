@@ -39,6 +39,8 @@ Github: https://github.com/DoctorLai/LogoTurtle/
 5. Submit a pull request.
 
 # Blog Posts
+- v0.0.17: Add CS Button
+- v0.0.16: Bug Fixes
 - v0.0.15: [The GOTO Keyword in LOGO Turtle Programming](https://helloacm.com/the-goto-keyword-in-logo-turtle-programming/)
 - v0.0.14: [Turtle Programming: Add Status Bar, Add Repcount and Bug Fixes](https://helloacm.com/logoturtle-v0-0-14-add-status-bar-add-repcount-and-bug-fixes/)
 - v0.0.13: [Turtle Programming: Support RGB, Add ShortCodes, Global Procedures Editor](https://helloacm.com/turtle-programming-v0-0-13-support-rgb-add-shortcodes-global-procedures-editor/)
