@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.nyc_output/
+*.zip
+package-lock.json
+*.html
+js/jquery-3.3.1.min.js
+js/jquery-ui.js
+bs/
+css/jquery-ui.css
+images/
+LICENSE

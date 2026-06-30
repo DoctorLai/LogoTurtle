@@ -1,2 +1,19 @@
+# Dependencies
+node_modules/
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# Packaged extension zips
 *.zip
-node_modules
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp

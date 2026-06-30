@@ -1,0 +1,66 @@
+# Changelog
+
+All notable changes to this project are documented here. This project adheres to
+[Semantic Versioning](https://semver.org/).
+
+## [1.0.0]
+
+The 1.0 release modernises LogoTurtle and migrates it to **Manifest V3**.
+
+### Added
+
+- **Manifest V3** support — the extension now ships with an MV3 manifest, a
+  background **service worker**, and an `action` popup.
+- **Sandboxed expression evaluator** (`js/safe_eval.js`) — a tokenizer +
+  recursive-descent parser that evaluates LOGO arithmetic/boolean expressions
+  without `eval()`, satisfying the strict MV3 Content Security Policy.
+- **25 UI languages** via a new self-registering translation registry
+  (`lang/registry.js`). The language dropdown is now generated automatically.
+- Developer tooling: ESLint, Prettier, NYC coverage (with an enforced minimum
+  threshold), and a `scripts/build-zip.js` packager.
+- GitHub Actions **CI** workflow (lint, format check, tests + coverage, build).
+- `CONTRIBUTING.md`, `PRIVACY.md`, `.editorconfig`, `.gitattributes` and an
+  expanded `.gitignore`.
+- `npm run build` now produces a Chrome Web Store ready
+  `dist/logoturtle-v<version>.zip`.
+
+### Changed
+
+- Replaced every `eval()` call in the interpreter with the sandboxed evaluator.
+- The `JS` command now evaluates a safe expression and prints the result
+  instead of executing arbitrary JavaScript (required for MV3).
+- The package entry (`index.js`) now exports `LogoParser`, `LogoCanvas`,
+  `safeEval` and the tokenizer/validator helpers for CommonJS and webpack.
+- Upgraded the webpack build to webpack 5 for modern Node compatibility.
+- Removed the unused, deprecated `request` and `jquery` dependencies and moved
+  test-only packages to `devDependencies`, cutting reported vulnerabilities.
+- Corrected the license badge (the project is, and always was, **MIT**).
+
+### Fixed
+
+- Fixed a `ReferenceError` when reporting an invalid `@` label (a mistyped
+  error constant).
+- Fixed `PENERASE`/`PE` falling through into the `WAIT` handler, which made the
+  command consume the following token and error on normal use.
+- Fixed invalid CSS (`top; 0;` → `top: 0;`) that prevented the turtle and
+  canvas from being positioned correctly.
+
+## Earlier releases
+
+- **v0.0.17** — Add CS (clear screen) button.
+- **v0.0.16** — Bug fixes.
+- **v0.0.15** — [The GOTO keyword](https://helloacm.com/the-goto-keyword-in-logo-turtle-programming/).
+- **v0.0.14** — [Status bar, repcount and bug fixes](https://helloacm.com/logoturtle-v0-0-14-add-status-bar-add-repcount-and-bug-fixes/).
+- **v0.0.13** — [RGB, shortcodes, global procedures editor](https://helloacm.com/turtle-programming-v0-0-13-support-rgb-add-shortcodes-global-procedures-editor/).
+- **v0.0.12** — [Powerful FOR loop, INC, DEC, and on NPM](https://helloacm.com/turtle-programming-v0-0-12-powerful-for-loop-inc-dec-and-on-npm/).
+- **v0.0.11** — [WHILE loop, DO/ELSE loop and unit tests](https://helloacm.com/turtle-programming-while-loop-do-else-loop-and-unit-tests-added/).
+- **v0.0.10** — [Fractal stars, random, console, eraser, and more](https://helloacm.com/turtle-programming-fractal-stars-random-console-eraser-setpc-setxy-examples-wait-bug-fixes-and-so-much-more/).
+- **v0.0.9** — [SetX, SetY, Square and Rect](https://helloacm.com/turtle-programming-v0-0-9-add-setx-sety-square-and-rect/).
+- **v0.0.8** — [Comments, dotxy, and javascript](https://helloacm.com/turtle-programming-v0-0-8-comments-dotxy-and-javascript/).
+- **v0.0.7** — [Functions with parameters + recursion](https://helloacm.com/turtle-programming-v0-0-7-functions-with-parameters-recursion/).
+- **v0.0.6** — [Circle, MoveTo, Turn and Screen](https://helloacm.com/turtle-programming-v0-0-6-adding-circle-moveto-turn-and-screen/).
+- **v0.0.5** — [IF/ELSE and STOP](https://helloacm.com/turtle-programming-v0-0-5-adding-if-else-and-stop/).
+- **v0.0.4** — [Variables and comments](https://helloacm.com/logoturtle-make-variables-and-comments/).
+- **v0.0.3** — [Text, jump, dot, fontsize, download as png](https://helloacm.com/turtle-graphics-programming-update-adding-text-jump-dot-fontsize-download-as-png/).
+- **v0.0.2** — [ShowTurtle, HideTurtle, Color, Width and Help](https://helloacm.com/logoturtle-v0-0-2-showturtle-hideturtle-color-width-and-help/).
+- **v0.0.1** — [The first LOGO interpreter (turtle graphics) in a Chrome extension](https://helloacm.com/teach-your-kids-programming-the-first-logo-interpreter-turtle-graphics-in-chrome-extension/).

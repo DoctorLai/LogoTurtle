@@ -1,26 +1,36 @@
 {
   "name": "logoturtle",
-  "version": "1.0.18",
+  "version": "1.0.0",
   "description": "Turtle Programming",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "chai": "^4.2.0",
-    "jquery": "^3.3.1",
-    "jsdom": "^16.5.0",
-    "request": "^2.88.0"
-  },
   "devDependencies": {
+    "archiver": "^7.0.1",
+    "chai": "^4.2.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "jsdom": "^25.0.1",
     "mocha": "^10.2.0",
-    "webpack": "^4.25.1",
-    "webpack-cli": "^3.2.1"
+    "nyc": "^15.1.0",
+    "prettier": "^3.3.3",
+    "webpack": "^5.94.0",
+    "webpack-cli": "^5.1.4"
   },
   "scripts": {
     "test": "mocha",
+    "coverage": "nyc mocha",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run lint && npm run format:check && npm run coverage",
     "dev": "webpack --mode development",
-    "build": "webpack --mode production",
+    "bundle": "webpack --mode production",
+    "build": "node scripts/build-zip.js",
+    "zip": "node scripts/build-zip.js",
+    "ci": "npm run check && npm run build",
     "watch": "webpack --watch"
   },
   "jshintConfig": {

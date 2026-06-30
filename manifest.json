@@ -1,36 +1,33 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Logo Turtle Graphics",
-  "short_name": "LogoTurtle",  
+  "short_name": "LogoTurtle",
   "default_locale": "en",
-  "version": "0.0.18",
-  "offline_enabled": true,
-  "browser_action": {
-     "default_icon": "icon.png",
-     "default_title": "Logo Turtle Graphics",
-     "default_popup": "main.html"
-  },
+  "version": "1.0.0",
+  "description": "The Logo Programming (Turtle Graphics) in Chrome Extension.",
   "author": "justyy<dr.zhihua.lai@gmail.com>",
+  "offline_enabled": true,
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
     "48": "images/icon-48.png",
     "128": "images/icon-128.png"
-  },  
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  "description": "The Logo Programming (Turtle Graphics) in Chrome Extension.",
-  "web_accessible_resources": [
-  		"js/*", 
-      "lang/*",
-  		"images/*",
-      "css/*",
-      "dist/*",
-  		"bs/*"
-  ],
+  },
+  "action": {
+    "default_icon": {
+      "16": "images/icon-16.png",
+      "32": "images/icon-32.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png"
+    },
+    "default_title": "Logo Turtle Graphics",
+    "default_popup": "main.html"
+  },
   "background": {
-    "scripts": ["js/background.js"]
-  },  
-  "permissions": [
-     "storage"
-  ]
+    "service_worker": "js/background.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "permissions": ["storage"]
 }
