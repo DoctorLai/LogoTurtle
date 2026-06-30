@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 class LogoCanvas {
 	// canvas = HTML5 canvas
@@ -26,11 +26,11 @@ class LogoCanvas {
 		this.cy = this.height / 2;
 		// facing north, clock-wise
 		this.angle = 0;
-		this.error = '';
+		this.error = "";
 		this.setTurtle(0, 0);
 		this.setTurtleAngle(this.angle);
 		// normal pen
-		this.penmode = 'pen';
+		this.penmode = "pen";
 	}
 
 	// error messages;
@@ -58,12 +58,12 @@ class LogoCanvas {
 
 	// eraser
 	eraser() {
-		this.penmode = 'eraser';
+		this.penmode = "eraser";
 		this.ctx.globalCompositeOperation = "destination-out";
 	}
 
 	pen() {
-		this.penmode = 'pen';
+		this.penmode = "pen";
 		this.ctx.globalCompositeOperation = "source-over";
 	}
 
@@ -80,13 +80,13 @@ class LogoCanvas {
 	// set line color
 	setLineColor(c) {
 		this.lineColor = c;
-		this.ctx.strokeStyle = this.lineColor;		
+		this.ctx.strokeStyle = this.lineColor;
 	}
 
 	// set line width
 	setLineWidth(c) {
 		this.lineWidth = c;
-		this.ctx.lineWidth = this.lineWidth;		
+		this.ctx.lineWidth = this.lineWidth;
 	}
 
 	// get line color
@@ -101,7 +101,7 @@ class LogoCanvas {
 
 	// clear error
 	clearError() {
-		this.error = '';
+		this.error = "";
 	}
 
 	// go home
@@ -130,9 +130,9 @@ class LogoCanvas {
 		if (this.pendown) {
 			this.ctx.save();
 			this.ctx.translate(this.x + this.cx, this.y + this.cy);
-			this.ctx.rotate(this.angle * Math.PI / 180);
-			this.ctx.textAlign = 'left';
-			this.ctx.font = this.fontsize + "px Arial";		
+			this.ctx.rotate((this.angle * Math.PI) / 180);
+			this.ctx.textAlign = "left";
+			this.ctx.font = this.fontsize + "px Arial";
 			this.ctx.fillStyle = this.getLineColor();
 			this.ctx.fillText(text, 0, 10);
 			this.ctx.restore();
@@ -141,11 +141,11 @@ class LogoCanvas {
 
 	// set turtle angle
 	setTurtleAngle(ang) {
-	    this.turtle.css({
-	        "-webkit-transform": "rotate(" + ang + "deg)",
-	        "-moz-transform": "rotate(" + ang + "deg)",
-	        "transform": "rotate(" + ang + "deg)" /* For modern browsers(CSS3)  */
-	    });				
+		this.turtle.css({
+			"-webkit-transform": "rotate(" + ang + "deg)",
+			"-moz-transform": "rotate(" + ang + "deg)",
+			transform: "rotate(" + ang + "deg)" /* For modern browsers(CSS3)  */,
+		});
 	}
 
 	// set font size
@@ -157,22 +157,54 @@ class LogoCanvas {
 	// set pen color, old compatability
 	setPc(x) {
 		switch (x) {
-			case 0: this.setLineColor("black"); break;
-			case 1: this.setLineColor("blue"); break;
-			case 2: this.setLineColor("green"); break;
-			case 3: this.setLineColor("cyan"); break;
-			case 4: this.setLineColor("red"); break;
-			case 5: this.setLineColor("magenta"); break;
-			case 6: this.setLineColor("yellow"); break;
-			case 7: this.setLineColor("white"); break;
-			case 8: this.setLineColor("brown"); break;
-			case 9: this.setLineColor("rgb(197,136,18)"); break;
-			case 10: this.setLineColor("rgb(100,162,64)"); break;
-			case 11: this.setLineColor("rgb(120,87,187)"); break;
-			case 12: this.setLineColor("rgb(255,149,119)"); break;
-			case 13: this.setLineColor("rgb(144,113,208)"); break;
-			case 14: this.setLineColor("rgb(255,163,0)"); break;
-			case 15: this.setLineColor("rgb(183,183,183)"); break;			
+			case 0:
+				this.setLineColor("black");
+				break;
+			case 1:
+				this.setLineColor("blue");
+				break;
+			case 2:
+				this.setLineColor("green");
+				break;
+			case 3:
+				this.setLineColor("cyan");
+				break;
+			case 4:
+				this.setLineColor("red");
+				break;
+			case 5:
+				this.setLineColor("magenta");
+				break;
+			case 6:
+				this.setLineColor("yellow");
+				break;
+			case 7:
+				this.setLineColor("white");
+				break;
+			case 8:
+				this.setLineColor("brown");
+				break;
+			case 9:
+				this.setLineColor("rgb(197,136,18)");
+				break;
+			case 10:
+				this.setLineColor("rgb(100,162,64)");
+				break;
+			case 11:
+				this.setLineColor("rgb(120,87,187)");
+				break;
+			case 12:
+				this.setLineColor("rgb(255,149,119)");
+				break;
+			case 13:
+				this.setLineColor("rgb(144,113,208)");
+				break;
+			case 14:
+				this.setLineColor("rgb(255,163,0)");
+				break;
+			case 15:
+				this.setLineColor("rgb(183,183,183)");
+				break;
 		}
 	}
 
@@ -188,7 +220,7 @@ class LogoCanvas {
 
 	// hide turtle
 	ht() {
-		this.turtle.hide();	
+		this.turtle.hide();
 	}
 
 	// draw a dot
@@ -201,7 +233,7 @@ class LogoCanvas {
 		this.ctx.beginPath();
 		this.ctx.fillRect(x + this.cx, y + this.cy, this.lineWidth, this.lineWidth);
 		this.ctx.stroke();
-	}	
+	}
 
 	// pen up
 	pu() {
@@ -214,37 +246,37 @@ class LogoCanvas {
 	}
 
 	// move forward
-	fd(len) {		
+	fd(len) {
 		let x = this.x;
 		let y = this.y;
-		let a = this.angle * Math.PI / 180;
+		let a = (this.angle * Math.PI) / 180;
 		let sx = len * Math.sin(a);
 		let sy = len * Math.cos(a);
 		this.moveTo(x + sx, y - sy);
 	}
 
 	// circle
-	circle(r) {		
+	circle(r) {
 		let x = this.x + this.cx;
 		let y = this.y + this.cy;
 		this.ctx.beginPath();
 		this.ctx.arc(x, y, r, 0, Math.PI * 2, true);
 		this.ctx.stroke();
-	}	
+	}
 
 	_equalPixel(a, b) {
-		return ((a[0] == b[0]) && (a[1] == b[1]) && (a[2] == b[2]) && (a[3] == b[3]));
+		return a[0] == b[0] && a[1] == b[1] && a[2] == b[2] && a[3] == b[3];
 	}
 
 	// draw a line
 	draw(x1, y1, x2, y2) {
 		this.ctx.beginPath();
-		if (this.penmode == 'pen') {
+		if (this.penmode == "pen") {
 			this.ctx.globalCompositeOperation = "source-over";
 			this.ctx.strokeStyle = this.lineColor;
 		} else {
 			this.ctx.globalCompositeOperation = "destination-out";
-		}		
+		}
 		this.ctx.lineWidth = this.lineWidth;
 		this.ctx.moveTo(x1 + this.cx, this.cy + y1);
 		this.ctx.lineTo(x2 + this.cx, this.cy + y2);
@@ -276,34 +308,34 @@ class LogoCanvas {
 		let p = this.ctx.getImageData(_x, _y, 1, 1);
 		let q = new Queue();
 		let c;
-		q.enqueue({x: _x, y: _y});			
+		q.enqueue({ x: _x, y: _y });
 		while (!q.isEmpty()) {
 			let cur = q.dequeue();
 			this.dotxy(cur.x - this.cx, cur.y - this.cy);
 			if (cur.x > 0) {
 				c = this.ctx.getImageData(cur.x - 1, cur.y, 1, 1);
 				if (this._equalPixel(c, p)) {
-					q.enqueue({x: cur.x - 1, y: cur.y});
+					q.enqueue({ x: cur.x - 1, y: cur.y });
 				}
 			}
 			if (cur.x < this.width) {
 				c = this.ctx.getImageData(cur.x + 1, cur.y, 1, 1);
 				if (this._equalPixel(c, p)) {
-					q.enqueue({x: cur.x + 1, y: cur.y});
+					q.enqueue({ x: cur.x + 1, y: cur.y });
 				}
-			}			
+			}
 			if (cur.y < this.height) {
 				c = this.ctx.getImageData(cur.x, cur.y + 1, 1, 1);
 				if (this._equalPixel(c, p)) {
-					q.enqueue({x: cur.x, y: cur.y + 1});
+					q.enqueue({ x: cur.x, y: cur.y + 1 });
 				}
-			}	
+			}
 			if (cur.y > 0) {
 				c = this.ctx.getImageData(cur.x, cur.y - 1, 1, 1);
 				if (this._equalPixel(c, p)) {
-					q.enqueue({x: cur.x, y: cur.y - 1});
+					q.enqueue({ x: cur.x, y: cur.y - 1 });
 				}
-			}					
+			}
 		}
 	}
 
@@ -343,12 +375,12 @@ class LogoCanvas {
 		}
 		this.y = ny;
 		this.setTurtle(this.x, this.y);
-	}	
+	}
 
 	// get x
 	getX() {
 		return this.x;
-	} 
+	}
 
 	// set x
 	setX(v) {
@@ -386,8 +418,8 @@ class LogoCanvas {
 	}
 }
 
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
 	module.exports = {
-		LogoCanvas
-	}
+		LogoCanvas,
+	};
 }

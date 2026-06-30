@@ -1,0 +1,16 @@
+# Auto-detect text files and normalize line endings to LF in the repository.
+* text=auto eol=lf
+
+# Vendored third-party libraries — exclude from GitHub language statistics.
+js/jquery-3.3.1.min.js linguist-vendored
+js/jquery-ui.js linguist-vendored
+bs/** linguist-vendored
+css/jquery-ui.css linguist-vendored
+dist/dist.min.js linguist-generated
+
+# Binary assets.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary

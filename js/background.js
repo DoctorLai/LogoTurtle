@@ -1,20 +1,20 @@
 "use strict";
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    switch (message.type) {
-        case "console.log":
-            console.log(message.obj);
-        break;
-    }
-    return true;
+chrome.runtime.onMessage.addListener(function (message) {
+	switch (message.type) {
+		case "console.log":
+			console.log(message.obj);
+			break;
+	}
+	return true;
 });
 
-chrome.runtime.onInstalled.addListener(function(details){
-    if (details.reason == "install"){
-        //call a function to handle a first install
-        console.log("onInstalled: Thank you!");
-    } else if (details.reason == "update"){
-        //call a function to handle an update
-        console.log("new version available.");
-    }
+chrome.runtime.onInstalled.addListener(function (details) {
+	if (details.reason == "install") {
+		//call a function to handle a first install
+		console.log("onInstalled: Thank you!");
+	} else if (details.reason == "update") {
+		//call a function to handle an update
+		console.log("new version available.");
+	}
 });

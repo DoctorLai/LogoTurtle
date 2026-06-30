@@ -1,0 +1,11 @@
+{
+  "all": true,
+  "include": ["js/safe_eval.js", "js/logo_funs.js"],
+  "exclude": ["test/**", "**/*.test.js"],
+  "reporter": ["text", "text-summary"],
+  "check-coverage": true,
+  "branches": 80,
+  "functions": 80,
+  "lines": 80,
+  "statements": 80
+}

@@ -1,0 +1,40 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jquery": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "script"
+  },
+  "extends": ["eslint:recommended", "prettier"],
+  "globals": {
+    "chrome": "readonly"
+  },
+  "rules": {
+    "no-undef": "off",
+    "no-unused-vars": "warn",
+    "no-fallthrough": "off",
+    "no-case-declarations": "off",
+    "no-cond-assign": "off",
+    "no-empty": "warn",
+    "no-redeclare": "warn",
+    "no-useless-escape": "warn",
+    "no-prototype-builtins": "warn",
+    "no-irregular-whitespace": "warn",
+    "no-control-regex": "warn",
+    "no-constant-condition": ["warn", { "checkLoops": false }]
+  },
+  "overrides": [
+    {
+      "files": ["test/**/*.js"],
+      "env": { "mocha": true, "node": true }
+    },
+    {
+      "files": ["scripts/**/*.js", "webpack.config.js", "index.js"],
+      "env": { "node": true }
+    }
+  ]
+}
