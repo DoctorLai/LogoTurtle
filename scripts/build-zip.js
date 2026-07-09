@@ -12,7 +12,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const archiver = require("archiver");
+const { ZipArchive } = require("archiver");
 
 const root = path.resolve(__dirname, "..");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.json"), "utf8"));
@@ -27,7 +27,7 @@ const TOP_LEVEL_FILES = ["manifest.json", "main.html", "LICENSE"];
 const FOLDERS = ["js", "lang", "bs", "css", "images", "_locales"];
 
 const output = fs.createWriteStream(outFile);
-const archive = archiver("zip", { zlib: { level: 9 } });
+const archive = new ZipArchive({ zlib: { level: 9 } });
 
 output.on("close", () => {
 	const kb = (archive.pointer() / 1024).toFixed(1);
