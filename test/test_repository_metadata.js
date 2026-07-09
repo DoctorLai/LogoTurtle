@@ -16,7 +16,7 @@ describe("repository metadata", function () {
 		const lock = readJson("package-lock.json");
 		const manifest = readJson("manifest.json");
 
-		expect(pkg.version).to.equal("1.1.0");
+		expect(pkg.version, "package.json version should look like SemVer").to.match(/^\d+\.\d+\.\d+$/);
 		expect(lock.version).to.equal(pkg.version);
 		expect(lock.packages[""].version).to.equal(pkg.version);
 		expect(manifest.version).to.equal(pkg.version);

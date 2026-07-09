@@ -138,12 +138,12 @@ const { LogoParser, LogoCanvas, safeEval } = require("logoturtle");
 safeEval("2 ** 10"); // => 1024
 ```
 
-| Export                        | Description                                    |
-| ----------------------------- | ---------------------------------------------- |
-| `LogoParser`                  | The LOGO interpreter                           |
-| `LogoCanvas`                  | Turtle drawing surface (needs an HTML5 canvas) |
-| `safeEval`                    | The sandboxed expression evaluator             |
-| `getNextWord`, `isNumeric`, … | Tokenizer / validator helpers                  |
+| Export                        | Description                                                                |
+| ----------------------------- | -------------------------------------------------------------------------- |
+| `LogoParser`                  | The LOGO interpreter                                                       |
+| `LogoCanvas`                  | Turtle drawing surface — browser-only (needs an HTML5 canvas + jQuery/DOM) |
+| `safeEval`                    | The sandboxed expression evaluator                                         |
+| `getNextWord`, `isNumeric`, … | Tokenizer / validator helpers                                              |
 
 A pre-bundled build is produced by `npm run bundle` (output:
 `dist/dist.min.js`).
