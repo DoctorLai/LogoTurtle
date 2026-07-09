@@ -204,9 +204,9 @@
 			case ">=":
 				return a >= b;
 			case "==":
-				return a == b; // eslint-disable-line eqeqeq
+				return a == b;
 			case "!=":
-				return a != b; // eslint-disable-line eqeqeq
+				return a != b;
 			case "===":
 				return a === b;
 			case "!==":
