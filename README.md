@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/DoctorLai/LogoTurtle/actions/workflows/ci.yml/badge.svg)](https://github.com/DoctorLai/LogoTurtle/actions/workflows/ci.yml)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/DoctorLai/LogoTurtle)
-[![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
+[![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org/)
 [![Manifest V3](https://img.shields.io/badge/manifest-v3-blue.svg)](manifest.json)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/dcoeaobaokbccdcnadncifmconllpihp.svg?label=web%20store)](https://chrome.google.com/webstore/detail/logo-turtle/dcoeaobaokbccdcnadncifmconllpihp)
 [![Users](https://img.shields.io/chrome-web-store/users/dcoeaobaokbccdcnadncifmconllpihp.svg)](https://chrome.google.com/webstore/detail/logo-turtle/dcoeaobaokbccdcnadncifmconllpihp)
