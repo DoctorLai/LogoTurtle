@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [master, main, "1.0"]
+    branches: [master, main]
   pull_request:
   workflow_dispatch:
 
@@ -42,6 +42,9 @@ jobs:
 
       - name: Test with coverage (enforces threshold)
         run: npm run coverage
+
+      - name: Check generated badges
+        run: npm run badges:check
 
       - name: Build npm bundle
         run: npm run bundle

@@ -1,8 +1,16 @@
 {
   "name": "logoturtle",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Turtle Programming",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "js/logo_funs.js",
+    "js/logo_constants.js",
+    "js/safe_eval.js",
+    "js/logocanvas.js",
+    "js/logoparser.js"
+  ],
   "directories": {
     "test": "test"
   },
@@ -25,7 +33,9 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "npm run lint && npm run format:check && npm run coverage",
+    "badges": "node scripts/generate-language-badge.js",
+    "badges:check": "node scripts/generate-language-badge.js --check",
+    "check": "npm run lint && npm run format:check && npm run coverage && npm run badges:check",
     "dev": "webpack --mode development",
     "bundle": "webpack --mode production",
     "build": "node scripts/build-zip.js",
@@ -48,6 +58,9 @@
   ],
   "author": "justyy <dr.zhihua.lai@gmail.com> (https://helloacm.com)",
   "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
   "bugs": {
     "url": "https://github.com/DoctorLai/LogoTurtle/issues"
   },

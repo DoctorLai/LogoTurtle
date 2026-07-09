@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or usage help
+    url: https://github.com/DoctorLai/LogoTurtle/blob/master/SUPPORT.md
+    about: Find where to ask questions and get help using LogoTurtle.
+  - name: Security report
+    url: https://github.com/DoctorLai/LogoTurtle/blob/master/SECURITY.md
+    about: Please report suspected security vulnerabilities privately.

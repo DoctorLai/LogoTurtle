@@ -112,12 +112,6 @@ const parseVarName = (s) => {
 	return arr;
 };
 
-// string replace all
-String.prototype.replaceAll = function (search, replacement) {
-	let target = this;
-	return target.replace(new RegExp(search, "g"), replacement);
-};
-
 // check if true
 const iftrue = (x) => {
 	switch (typeof x) {

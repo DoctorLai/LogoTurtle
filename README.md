@@ -1,6 +1,7 @@
 # LogoTurtle 🐢
 
 [![CI](https://github.com/DoctorLai/LogoTurtle/actions/workflows/ci.yml/badge.svg)](https://github.com/DoctorLai/LogoTurtle/actions/workflows/ci.yml)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/DoctorLai/LogoTurtle)
 [![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
 [![Manifest V3](https://img.shields.io/badge/manifest-v3-blue.svg)](manifest.json)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/dcoeaobaokbccdcnadncifmconllpihp.svg?label=web%20store)](https://chrome.google.com/webstore/detail/logo-turtle/dcoeaobaokbccdcnadncifmconllpihp)
@@ -9,10 +10,17 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Code style: Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![JavaScript](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FDoctorLai%2FLogoTurtle%2Fmaster%2Fbadges%2Fjavascript.json)](badges/javascript.json)
+[![Top language](https://img.shields.io/github/languages/top/DoctorLai/LogoTurtle.svg)](https://github.com/DoctorLai/LogoTurtle)
+[![Repo size](https://img.shields.io/github/repo-size/DoctorLai/LogoTurtle.svg)](https://github.com/DoctorLai/LogoTurtle)
 [![Privacy](https://img.shields.io/badge/privacy-policy-blue.svg)](PRIVACY.md)
 [![Last Commit](https://img.shields.io/github/last-commit/DoctorLai/LogoTurtle.svg)](https://github.com/DoctorLai/LogoTurtle/commits)
-[![Issues](https://img.shields.io/github/issues/DoctorLai/LogoTurtle.svg)](https://github.com/DoctorLai/LogoTurtle/issues)
-[![Stars](https://img.shields.io/github/stars/DoctorLai/LogoTurtle.svg?style=social)](https://github.com/DoctorLai/LogoTurtle/stargazers)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/DoctorLai/LogoTurtle.svg)](https://github.com/DoctorLai/LogoTurtle/pulse)
+[![Open PRs](https://img.shields.io/github/issues-pr/DoctorLai/LogoTurtle.svg)](https://github.com/DoctorLai/LogoTurtle/pulls)
+[![Open issues](https://img.shields.io/github/issues/DoctorLai/LogoTurtle.svg)](https://github.com/DoctorLai/LogoTurtle/issues)
+[![Stars](https://img.shields.io/github/stars/DoctorLai/LogoTurtle.svg)](https://github.com/DoctorLai/LogoTurtle/stargazers)
+[![Watchers](https://img.shields.io/github/watchers/DoctorLai/LogoTurtle.svg)](https://github.com/DoctorLai/LogoTurtle/watchers)
+[![Forks](https://img.shields.io/github/forks/DoctorLai/LogoTurtle.svg)](https://github.com/DoctorLai/LogoTurtle/network/members)
 
 **LogoTurtle** is the first open-source **LOGO programming language interpreter
 (turtle graphics)** packaged as a Chrome extension. Type a few commands, press
@@ -92,18 +100,18 @@ polygon 6 80
 
 ### Supported commands
 
-| Category   | Commands                                                                                                                                 |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Movement   | `FD`/`FORWARD`/`WALK`, `BK`/`BACKWARD`, `RT`/`RIGHT`, `LT`/`LEFT`, `HOME`, `JMP`/`JUMP`, `SETX`, `SETY`, `SETXY`/`MOVETO`, `TURN`/`SETH` |
-| Pen        | `PU`/`PENUP`, `PD`/`PENDOWN`, `PE`/`PENERASE`, `PPT`/`PENPAINT`, `WIDTH`, `COLOR`, `PC`/`SETPC`/`SETCOLOR`/`SETPENCOLOR`                 |
-| Turtle     | `ST`/`SHOWTURTLE`, `HT`/`HIDETURTLE`                                                                                                     |
-| Screen     | `CS`/`CLEARSCREEN`, `SCREEN`/`SETSC`/`SETSCREENCOLOR`, `CLEAR`, `CLEARCONSOLE`                                                           |
-| Shapes     | `CIRCLE`, `RECT`, `SQUARE`, `DOT`, `DOTXY`                                                                                               |
-| Text       | `TEXT`/`LABEL`, `FONTSIZE`, `PRINT`/`CONSOLE`                                                                                            |
-| Control    | `REPEAT`, `IF`/`ELSE`, `WHILE`, `DO`/`ELSE`, `FOR`, `STOP`, `GOTO`                                                                       |
-| Variables  | `MAKE`, `INC`, `DEC`, `REMOVE`                                                                                                           |
-| Procedures | `TO` … `END`                                                                                                                             |
-| Misc       | `WAIT`, `JS`                                                                                                                             |
+| Category   | Commands                                                                                                                                        |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Movement   | `FD`/`FORWARD`/`WALK`, `BK`/`BACKWARD`, `RT`/`RIGHT`, `LT`/`LEFT`, `HOME`, `JMP`/`JUMP`, `SETX`, `SETY`, `SETXY`/`MOVETO`, `TURN`/`SETH`        |
+| Pen        | `PU`/`PENUP`, `PD`/`PENDOWN`, `PE`/`PENERASE`, `PPT`/`PENPAINT`, `WIDTH`/`PENSIZE`/`SETPENSIZE`, `COLOR`, `PC`/`SETPC`/`SETCOLOR`/`SETPENCOLOR` |
+| Turtle     | `ST`/`SHOWTURTLE`, `HT`/`HIDETURTLE`                                                                                                            |
+| Screen     | `CS`/`CLEARSCREEN`, `SCREEN`/`SETSC`/`SETSCREENCOLOR`, `CLEAR`, `CLEARCONSOLE`                                                                  |
+| Shapes     | `CIRCLE`, `ARC`, `RECT`, `SQUARE`, `DOT`, `DOTXY`                                                                                               |
+| Text       | `TEXT`/`LABEL`, `FONTSIZE`, `PRINT`/`CONSOLE`                                                                                                   |
+| Control    | `REPEAT`, `IF`/`ELSE`, `WHILE`, `DO`/`ELSE`, `FOR`, `STOP`, `GOTO`                                                                              |
+| Variables  | `MAKE`, `INC`, `DEC`, `REMOVE`                                                                                                                  |
+| Procedures | `TO` … `END`                                                                                                                                    |
+| Misc       | `WAIT`, `JS`                                                                                                                                    |
 
 ### Global variables
 
@@ -130,12 +138,12 @@ const { LogoParser, LogoCanvas, safeEval } = require("logoturtle");
 safeEval("2 ** 10"); // => 1024
 ```
 
-| Export                        | Description                                    |
-| ----------------------------- | ---------------------------------------------- |
-| `LogoParser`                  | The LOGO interpreter                           |
-| `LogoCanvas`                  | Turtle drawing surface (needs an HTML5 canvas) |
-| `safeEval`                    | The sandboxed expression evaluator             |
-| `getNextWord`, `isNumeric`, … | Tokenizer / validator helpers                  |
+| Export                        | Description                                                                |
+| ----------------------------- | -------------------------------------------------------------------------- |
+| `LogoParser`                  | The LOGO interpreter                                                       |
+| `LogoCanvas`                  | Turtle drawing surface — browser-only (needs an HTML5 canvas + jQuery/DOM) |
+| `safeEval`                    | The sandboxed expression evaluator                                         |
+| `getNextWord`, `isNumeric`, … | Tokenizer / validator helpers                                              |
 
 A pre-bundled build is produced by `npm run bundle` (output:
 `dist/dist.min.js`).
@@ -148,7 +156,8 @@ npm test           # run the test suite (Mocha + Chai)
 npm run coverage   # run tests with an enforced coverage threshold
 npm run lint       # lint with ESLint
 npm run format     # format with Prettier
-npm run check      # lint + format check + coverage
+npm run badges     # regenerate the dynamic JavaScript badge endpoint
+npm run check      # lint + format check + coverage + generated badge check
 npm run build      # package dist/logoturtle-v<version>.zip for the Web Store
 ```
 
