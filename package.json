@@ -15,10 +15,12 @@
     "test": "test"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "archiver": "^8.0.0",
     "chai": "^6.2.2",
     "eslint": "^10.6.0",
     "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.7.0",
     "jsdom": "^29.1.1",
     "mocha": "^11.7.6",
     "nyc": "^18.0.0",
@@ -59,7 +61,7 @@
   "author": "justyy <dr.zhihua.lai@gmail.com> (https://helloacm.com)",
   "license": "MIT",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "bugs": {
     "url": "https://github.com/DoctorLai/LogoTurtle/issues"

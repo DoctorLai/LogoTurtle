@@ -24,7 +24,7 @@ describe("repository metadata", function () {
 
 	it("declares a supported Node.js engine", function () {
 		const pkg = readJson("package.json");
-		expect(pkg.engines).to.have.property("node", ">=18");
+		expect(pkg.engines).to.have.property("node", ">=20");
 	});
 
 	it("documents the expected maintenance npm scripts", function () {
