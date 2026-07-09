@@ -28,6 +28,12 @@ describe("LogoParser - pen and turtle state", function () {
 		expect(callsNamed(logo, "setLineWidth")[0].args[0]).to.equal(5);
 		expect(callsNamed(logo, "setAngle")[0].args[0]).to.equal(90);
 	});
+
+	it("supports pensize and setpensize as aliases for width", function () {
+		const { logo } = runProgram("pensize 7 setpensize 9");
+		const widths = callsNamed(logo, "setLineWidth").map((c) => c.args[0]);
+		expect(widths).to.deep.equal([7, 9]);
+	});
 });
 
 describe("LogoParser - shapes", function () {
@@ -37,6 +43,12 @@ describe("LogoParser - shapes", function () {
 		expect(callsNamed(logo, "circle")[0].args[0]).to.equal(50);
 		expect(callsNamed(logo, "square")[0].args[0]).to.equal(30);
 		expect(callsNamed(logo, "fillRec")[0].args).to.deep.equal([10, 20]);
+	});
+
+	it("draws an arc with an angle and radius", function () {
+		const { logo, parser } = runProgram("arc 90 50");
+		expect(parser.getErr()).to.equal("");
+		expect(callsNamed(logo, "arc")[0].args).to.deep.equal([90, 50]);
 	});
 });
 

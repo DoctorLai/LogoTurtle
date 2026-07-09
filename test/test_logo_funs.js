@@ -66,6 +66,15 @@ describe("getNextWord", function () {
 		let a = modules.getNextWord("fd#c", 0, 4);
 		a.word.should.equal("fd");
 	});
+	it("stops at // and /* comment markers", function () {
+		modules.getNextWord("fd//c", 0, 5).word.should.equal("fd");
+		modules.getNextWord("fd/*c", 0, 5).word.should.equal("fd");
+	});
+	it("returns an empty word for trailing whitespace", function () {
+		let a = modules.getNextWord("   ", 0, 3);
+		a.word.should.equal("");
+		a.next.should.equal(4);
+	});
 });
 
 describe("getNextBody", function () {
@@ -80,6 +89,12 @@ describe("getNextBody", function () {
 		let r = modules.getNextBody(s, 0, s.length);
 		r.ch.should.equal("[");
 		r.right.should.equal(s.length - 1);
+	});
+	it("reads a bare word when there is no bracket body", function () {
+		let r = modules.getNextBody("fd 100", 0, 6);
+		r.ch.should.equal("f");
+		r.left.should.equal(0);
+		r.right.should.equal(2);
 	});
 });
 
@@ -107,5 +122,10 @@ describe("iftrue", function () {
 		modules.iftrue("true").should.equal(true);
 		modules.iftrue("false").should.equal(false);
 		modules.iftrue("TRUE").should.equal(true);
+	});
+	it("returns false for unsupported types", function () {
+		modules.iftrue(undefined).should.equal(false);
+		modules.iftrue(null).should.equal(false);
+		modules.iftrue({}).should.equal(false);
 	});
 });

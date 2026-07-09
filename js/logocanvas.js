@@ -264,6 +264,18 @@ class LogoCanvas {
 		this.ctx.stroke();
 	}
 
+	// arc: draw a partial circle of `deg` degrees with radius `r`, centred on
+	// the turtle and starting from its current heading. The turtle does not move.
+	arc(deg, r) {
+		let x = this.x + this.cx;
+		let y = this.y + this.cy;
+		let start = ((this.angle - 90) * Math.PI) / 180;
+		let end = start + (deg * Math.PI) / 180;
+		this.ctx.beginPath();
+		this.ctx.arc(x, y, r, start, end, false);
+		this.ctx.stroke();
+	}
+
 	_equalPixel(a, b) {
 		return a[0] == b[0] && a[1] == b[1] && a[2] == b[2] && a[3] == b[3];
 	}

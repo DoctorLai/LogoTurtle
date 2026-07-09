@@ -38,7 +38,9 @@ npm install
 | `npm run lint:fix`     | Auto-fix lint problems where possible                         |
 | `npm run format`       | Format the codebase with Prettier                             |
 | `npm run format:check` | Verify formatting without writing changes                     |
-| `npm run check`        | Lint + formatting check + coverage (run this before a PR)     |
+| `npm run badges`       | Regenerate the dynamic JavaScript language badge endpoint     |
+| `npm run badges:check` | Verify the generated badge endpoint is current                |
+| `npm run check`        | Lint + formatting check + coverage + generated badge check    |
 | `npm run bundle`       | Build the npm library bundle (`dist/dist.min.js`) via webpack |
 | `npm run build`        | Package the extension into `dist/logoturtle-v<version>.zip`   |
 | `npm run ci`           | `check` + `build` — mirrors the CI pipeline                   |
