@@ -31,7 +31,7 @@ module.exports = [
 		},
 		rules: {
 			"no-undef": "off",
-			"no-unused-vars": "warn",
+			"no-unused-vars": ["warn", { caughtErrors: "none" }],
 			"no-fallthrough": "off",
 			"no-case-declarations": "off",
 			"no-cond-assign": "off",
